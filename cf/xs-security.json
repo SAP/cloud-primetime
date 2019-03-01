@@ -1,0 +1,37 @@
+{
+	"xsappname": "primetime",
+	"tenant-mode": "dedicated",
+	"scopes": [
+		{
+			"name": "$XSAPPNAME.admin",
+			"description": "admin"
+		},
+		{
+			"name": "$XSAPPNAME.dbadmin",
+			"description": "dbadmin"
+		}
+	],
+	"role-templates": [
+		{
+			"name": "admin",
+			"description": "Admin in PrimeTime",
+			"scope-references": [
+				"$XSAPPNAME.admin"
+			]
+		},
+		{
+			"name": "dbadmin",
+			"description": "Database admin in PrimeTime",
+			"scope-references": [
+				"$XSAPPNAME.dbadmin"
+			]
+		},
+		{
+			"name": "user",
+			"description": "Normal user in PrimeTime",
+			"scope-references": [
+				"uaa.user"
+			]
+		}
+	]
+}

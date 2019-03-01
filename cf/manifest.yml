@@ -1,0 +1,57 @@
+applications:
+- name: ((appName))
+  path: web-cf/target/web-cf.war
+  buildpacks:
+  - sap_java_buildpack
+  instances: 1
+  memory: 1792M
+  env:
+    JAVA_OPTS: -XX:InitialCodeCacheSize=64m -XX:ReservedCodeCacheSize=64m
+    SAP_JWT_TRUST_ACL: '[{"clientid" : "*", "identityzone" : "*"}]'
+  services:
+  - primetime-uaa
+  - primetime-postgres
+- name: ((appName))HTML5Deployer
+  path: html5-cf
+  buildpacks:
+  - nodejs_buildpack
+  no-route: true
+  memory: 128M
+  services:
+  - primetime-html5-host
+- name: ((appName))ar
+  path: approuter-proxy-only
+  buildpacks:
+  - nodejs_buildpack
+  memory: 128M
+  env:
+    destinations: |
+      [
+        {"name":"app",
+         "url":"https://((appName)).((host))",
+         "forwardAuthToken": true}
+      ]
+  services:
+  - primetime-uaa
+- name: ((appName))ar2
+  path: approuter-static-content
+  buildpacks:
+  - nodejs_buildpack
+  memory: 256M
+  env:
+    destinations: |
+      [
+        {"name":"app",
+         "url":"https://((appName)).((host))",
+         "forwardAuthToken": true}
+      ]
+  services:
+  - primetime-uaa
+- name: ((appName))ar3
+  path: approuter-html5repo
+  buildpacks:
+  - nodejs_buildpack
+  memory: 256M
+  services:
+  - primetime-html5-rt
+  - primetime-uaa

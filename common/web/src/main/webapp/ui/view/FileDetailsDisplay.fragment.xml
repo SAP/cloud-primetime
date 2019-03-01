@@ -1,0 +1,42 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:tnt="sap.tnt" xmlns:core="sap.ui.core" xmlns:u="sap.ui.unified"
+	xmlns:l="sap.ui.layout" xmlns:form="sap.ui.layout.form">
+	<form:SimpleForm editable="false" layout="ResponsiveGridLayout">
+		<Label text="Name" />
+		<Text text="{file>/name}" tooltip="{file>/name}" />
+
+		<Label text="Type" />
+		<Text text="{file>/fileType}" />
+
+		<Label text="Pages" />
+		<Text text="{file>/pageCount}" visible="{=${file>/fileType} === 'pdf'}" />
+
+		<Label text="Dimensions" />
+		<Text text="{file>/width}x{file>/height}" visible="{=${file>/width} &gt; 0}" />
+
+		<Label text="Duration" />
+		<Text text="{path:'file>/duration', formatter:'.formatSeconds'}" visible="{=${file>/duration} &gt; 0}" />
+
+		<Label text="Description" />
+		<Text text="{file>/description}" visible="{= typeof ${file>/description} !== 'undefined'}" />
+
+		<Label text="Version" />
+		<Text text="{file>/version}" visible="{= typeof ${file>/version} !== 'undefined'}" />
+
+		<Label text="Parameters" />
+		<Text text="{= typeof ${file>/parameters} !== 'undefined' ? 'Yes' : 'No'}"
+			visible="{= typeof ${file>/parameters} !== 'undefined' || ${file>/fileType} === 'template'}" />
+
+		<Label text="Size" />
+		<Text text="{path:'file>/size', type: 'sap.primetime.model.FileSize'}" />
+
+		<Label text="Last Update" />
+		<Text text="{path: 'file>/dateModified', type: 'sap.primetime.model.DateTime'}" tooltip="{file>/dateModified}" />
+
+		<Label text="Used In Pages" />
+		<Text text="{=${ref>/userPages}.length} yours, {ref>/foreignPages} others" visible="{file>/isOwner}" />
+
+		<Label text="Public" />
+		<tnt:InfoLabel text="{file>/listPublicly}" displayOnly="true" colorScheme="{=${file>/listPublicly} ? 8 : 3}"
+			visible="{= ${file>/fileType} === 'template'}" />
+	</form:SimpleForm>
+</core:FragmentDefinition>

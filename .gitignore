@@ -1,0 +1,15 @@
+.classpath
+.project
+package-lock.json
+*.cache
+*.log
+*.droplet
+app.*.properties
+target/
+bin/
+temp/
+node/
+node_modules/
+dist/
+neo/deploy*.properties
+cf/vars*.yml

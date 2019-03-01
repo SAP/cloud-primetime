@@ -1,0 +1,29 @@
+<html>
+<head>
+<title>PrimeTime - Image</title>
+</head>
+<body style="margin: 0px; padding: 0px">
+
+	<script>
+		function getUrlParameter(name) {
+			name = name.replace(/[\[\]]/g, '\\$&');
+			var url = window.location.href;
+			var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'), results = regex
+					.exec(url);
+			if (!results)
+				return null;
+			if (!results[2])
+				return '';
+
+			return decodeURIComponent(results[2].replace(/\+/g, ' '));
+		}
+
+		var fileId = getUrlParameter("file");
+		if (fileId != null) {
+			document.write("<img src='/s/api/fileservice/files/" + fileId
+					+ "/content' width='100%' height='100%'/>");
+		}
+	</script>
+
+</body>
+</html>

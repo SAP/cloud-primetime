@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="content-language" content="en">
+<meta http-equiv="expires" content="0">
+
+<link rel="shortcut icon" href="favicon.png" />
+<link href="/ui/css/main.css" rel="stylesheet" type="text/css">
+
+<script id="sap-ui-bootstrap"
+	src="https://sapui5.hana.ondemand.com/1.63.0/resources/sap-ui-core.js"
+	data-sap-ui-theme="sap_belize_plus" data-sap-ui-libs="sap.m, sap.f"
+	data-sap-ui-bindingSyntax="complex" data-sap-ui-compatVersion="edge"
+	data-sap-ui-preload="async"
+	data-sap-ui-resourceroots='{
+           "sap.primetime": "/"
+       }'>
+	
+</script>
+
+<title>PrimeTime</title>
+
+<script>
+	var swa;
+
+	sap.ui.getCore().attachInit(function() {
+		new sap.ui.core.ComponentContainer({
+			height : "100%",
+			name : "sap.primetime.ui",
+			componentCreated : function(oEvent) {
+				var token = oEvent.getParameter("component").getModel("system").getProperty("/analyticsToken");
+				if (token) {
+					swa = {
+						pubToken : token,
+						baseUrl : 'https://webanalytics.cfapps.eu10.hana.ondemand.com/tracker/',
+						visitorCookieTimeout : 63113852,
+						dntLevel : 1,
+						bannerEnabled : false
+					};
+					(function() {
+						var d = document, g = d.createElement('script'), s = d
+								.getElementsByTagName('script')[0];
+						g.type = 'text/javascript';
+						g.defer = true;
+						g.async = true;
+						g.src = swa.baseUrl + 'js/privacy.js';
+						s.parentNode.insertBefore(g, s);
+					})();
+				}
+			}
+		}).placeAt("content");
+	});
+</script>
+</head>
+<body class="sapUiBody" role="application" id="content">
+	<script>
+		// send errors to remote
+		var fnOriginal = window.onerror;
+		var eventQueue = [], pollStarted = false;
+
+		function addEvent(eventFunction) {
+			eventQueue.push(eventFunction);
+			emptyQueue();
+		}
+
+		function emptyQueue() {
+			if (swa && typeof swa.trackCustomEvent === "function" && swa.plugin
+					&& window.Piwik) {
+				while (eventQueue.length) {
+					var sendEvent = eventQueue.pop();
+					sendEvent();
+				}
+			} else if (!pollStarted) {
+				// poll for swa
+				setTimeout(function() {
+					pollStarted = false;
+					emptyQueue();
+				}, 500);
+				// only start one timeout polling
+				pollStarted = true;
+			}
+		}
+
+		sap.ui.require([ "jquery.sap.global" ], function($) {
+			var listener = {
+				onLogEntry : function(oLogEntry) {
+					if (oLogEntry.level !== $.sap.log.Level.ERROR) {
+						return;
+					}
+
+					var error = new Error();
+					var stack = error.stack || "";
+					var logError = function() {
+						swa.trackCustomEvent("errorLog", oLogEntry.message,
+								oLogEntry.details, oLogEntry.component, stack);
+					};
+
+					addEvent(logError);
+				}
+			};
+			$.sap.log.addLogListener(listener);
+		});
+
+		window.onerror = function() {
+			var argumentsCopy = Array.prototype.slice.call(arguments);
+			var sendError = function() {
+				var error = argumentsCopy[3];
+				// url is tracked anyways don't pass it
+				swa.trackCustomEvent("globalError",
+				// message
+				argumentsCopy[0],
+				// line
+				argumentsCopy[1],
+				// column,
+				argumentsCopy[2],
+				// error
+				error && error.stack);
+			};
+			addEvent(sendError);
+			if (fnOriginal) {
+				return fnOriginal.apply(this, arguments);
+			}
+		};
+	</script>
+</body>
+</html>

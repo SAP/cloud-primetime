@@ -1,0 +1,42 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout"
+	xmlns:form="sap.ui.layout.form" xmlns:f="sap.f">
+	<Dialog title="Manage Owners" draggable="false" stretchOnPhone="true">
+		<l:HorizontalLayout allowWrapping="false">
+			<Input value="{/user/userId}" maxLength="80" width="140px" valueLiveUpdate="true" placeholder="User Ids to add"
+				class="sapUiTinyMarginBegin" submit="onOwnerAddPressed" />
+			<Select selectedKey="{/role}" class="sapUiSmallMarginBegin" visible="{=${/context} === 'page'}">
+				<core:Item key="ADMINISTRATOR" text="Administrator" />
+				<core:Item key="CONTENT_MANAGER" text="Content Manager" />
+			</Select>
+			<Button text="Add" press="onOwnerAddPressed" class="sapUiTinyMarginBegin" enabled="{=${/user/userId}.length &gt; 0}" />
+		</l:HorizontalLayout>
+		<Table inset="false" items="{path: 'source>/owners'}" mode="Delete" delete="onDeleteOwner">
+			<columns>
+				<Column width="40px" />
+				<Column>
+					<Text text="User" />
+				</Column>
+				<Column minScreenWidth="Tablet" demandPopin="true">
+					<Text text="Role" />
+				</Column>
+				<Column minScreenWidth="Tablet" demandPopin="true" visible="{=${/context} === 'page'}">
+					<Text text="Show as Contact" />
+				</Column>
+			</columns>
+
+			<items>
+				<ColumnListItem vAlign="Middle">
+					<cells>
+						<f:Avatar displaySize="XS" src="{source>user/imageLink}" class="sapUiTinyMarginTopBottom" />
+						<Link text="{source>user/displayName}" href="#/user/{source>user/id}" />
+						<Text text="{source>role}" />
+						<Switch state="{source>contact}" customTextOn="Yes" customTextOff="No" change="onChangeOwner" />
+					</cells>
+				</ColumnListItem>
+			</items>
+		</Table>
+		<beginButton>
+			<Button text="Close" press="onOwnersClosePressed" />
+		</beginButton>
+	</Dialog>
+</core:FragmentDefinition>

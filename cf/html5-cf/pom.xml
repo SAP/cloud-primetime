@@ -1,0 +1,59 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>html5-cf</artifactId>
+	<packaging>pom</packaging>
+
+	<parent>
+		<groupId>com.sap.primetime</groupId>
+		<artifactId>parent</artifactId>
+		<version>0.0.1</version>
+		<relativePath>../..</relativePath>
+	</parent>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.github.eirslett</groupId>
+				<artifactId>frontend-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>clean</id>
+						<phase>clean</phase>
+						<configuration>
+							<target>
+								<delete dir="${project.basedir}/resources" />
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>package</id>
+						<phase>package</phase>
+						<configuration>
+							<target>
+								<echo message="Repackaging UI for HTML5 repo compatibility" />
+								<unzip src="../../common/web/target/ui.zip" dest="${project.basedir}/resources/app" />
+								<copy file="${project.basedir}/xs-app.json" todir="${project.basedir}/resources/app" />
+								<copy file="${project.basedir}/manifest.json" todir="${project.basedir}/resources/app" />
+								<!-- temporary due to 1Mb size limitation -->
+								<delete file="${project.basedir}/resources/app/ui/img/teaser.mp4" />
+								<delete file="${project.basedir}/resources/app/showPDF/content/example.pdf" />
+								<delete file="${project.basedir}/resources/app/ui/3rdparty/nysoft/thirdparty/pdf.worker.js" />
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

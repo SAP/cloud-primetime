@@ -1,0 +1,29 @@
+<mvc:View class="iframe-container" id="rotateContent" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns:l="sap.ui.layout"
+	xmlns:qr="sap.primetime.ui.3rdparty" controllerName="sap.primetime.ui.controller.RotateContent" xmlns="sap.m">
+
+	<App>
+		<Page id="iFramePage" showHeader="true" showFooter="true">
+			<footer>
+				<Bar>
+					<contentLeft>
+						<qr:QRCode id="pageQRCode" code="-generated-at-runtime-" width="200px" height="200px" tooltip="Open Companion App" />
+					</contentLeft>
+					<contentMiddle>
+						<l:HorizontalLayout id="pageCountdown">
+							<core:Icon src="sap-icon://future" />
+							<Text id="remainingPageTime" text="" class="sapUiTinyMarginBeginEnd" />
+						</l:HorizontalLayout>
+					</contentMiddle>
+					<contentRight>
+						<l:HorizontalLayout id="ownerAvatars" />
+						<l:VerticalLayout id="ownerNames" class="sapUiSmallMarginEnd fixBarIssue" visible="false">
+							<Text id="pageOwners" text="" />
+							<Label labelFor="pageOwners" class="pageOwnersDescription" text="Content Owner" />
+						</l:VerticalLayout>
+					</contentRight>
+				</Bar>
+			</footer>
+		</Page>
+	</App>
+
+</mvc:View>

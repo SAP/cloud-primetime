@@ -1,0 +1,183 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.sap.primetime</groupId>
+	<artifactId>parent</artifactId>
+	<version>0.0.1</version>
+	<packaging>pom</packaging>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<!-- Versions and classifiers to be shared by all modules -->
+		<cloud.jdk.version>1.8</cloud.jdk.version>
+		<cloud.sdk.version>3.75.12</cloud.sdk.version>
+		<cxf.version>3.0.10</cxf.version>
+		<poi.version>3.17</poi.version> <!-- upgrading to 4.0.0 will cause schemas not to be found anymore at runtime -->
+		<cmis.version>1.0.0</cmis.version>
+		<derby.version>10.14.2.0</derby.version>
+		<httpclient.version>4.5.7</httpclient.version>
+		<itutil.version>5.0.44</itutil.version>
+		<swagger.version>2.0.7</swagger.version>
+
+		<!-- Node.js settings -->
+		<node.version>8.9.4</node.version>
+		<node.gav>gav:org.nodejs.download.node:node</node.gav>
+		<node.location>${node.gav}</node.location>
+		<node.forceNoProxy>true</node.forceNoProxy>
+
+		<!-- NPM settings -->
+		<npm.version>5.7.1</npm.version>
+		<npm.registry>https://npm.sap.com</npm.registry>
+	</properties>
+
+	<prerequisites>
+		<maven>3.1.0</maven>
+	</prerequisites>
+
+	<organization>
+		<name>SAP SE</name>
+		<url>http://www.sap.com</url>
+	</organization>
+
+	<developers>
+		<developer>
+			<name>SAP Cloud Platform</name>
+			<url>https://cloudplatform.sap.com</url>
+			<organization>SAP SE</organization>
+			<organizationUrl>https://www.sap.com</organizationUrl>
+		</developer>
+	</developers>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<repositories>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
+	</repositories>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>exec-maven-plugin</artifactId>
+					<version>1.6.0</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<version>1.8</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>3.2.2</version>
+				</plugin>
+				<plugin>
+					<groupId>com.github.eirslett</groupId>
+					<artifactId>frontend-maven-plugin</artifactId>
+					<version>1.7.5</version>
+					<executions>
+						<execution>
+							<id>install node and npm</id>
+							<goals>
+								<goal>install-node-and-npm</goal>
+							</goals>
+							<configuration>
+								<nodeVersion>v${node.version}</nodeVersion>
+							</configuration>
+						</execution>
+						<execution>
+							<id>register SAP repository</id>
+							<goals>
+								<goal>npm</goal>
+							</goals>
+							<configuration>
+								<arguments>config set @sap:registry https://npm.sap.com</arguments>
+							</configuration>
+						</execution>
+						<execution>
+							<id>npm install</id>
+							<goals>
+								<goal>npm</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>3.1.0</version>
+					<configuration>
+						<filesets>
+							<fileset>
+								<directory>dist</directory>
+							</fileset>
+							<fileset>
+								<directory>node</directory>
+							</fileset>
+							<fileset>
+								<directory>etc</directory>
+							</fileset>
+							<fileset>
+								<directory>${project.basedir}</directory>
+								<includes>
+									<inlude>npm-debug*.*</inlude>
+								</includes>
+							</fileset>
+						</filesets>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.0</version>
+				<configuration>
+					<source>${cloud.jdk.version}</source>
+					<target>${cloud.jdk.version}</target>
+					<showDeprecation>false</showDeprecation>
+					<showWarnings>false</showWarnings>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>1.7.19</version>
+				<scope>provided</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<modules>
+		<module>common/app</module>
+		<module>common/web</module>
+		<module>neo/app-neo</module>
+		<module>neo/web-neo</module>
+		<module>neo/html5-neo</module>
+		<module>cf/app-cf</module>
+		<module>cf/web-cf</module>
+		<module>cf/html5-cf</module>
+		<module>cf/approuter-proxy-only</module>
+		<module>cf/approuter-static-content</module>
+		<module>cf/approuter-html5repo</module>
+	</modules>
+</project>

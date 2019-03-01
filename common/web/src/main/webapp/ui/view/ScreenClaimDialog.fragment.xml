@@ -1,0 +1,24 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:form="sap.ui.layout.form">
+	<Dialog title="Claim Screen" draggable="true">
+		<Text text="Enter the key displayed on the screen you have recently onboarded to be able to manage it." class="sapUiTinyMargin" />
+		<form:SimpleForm editable="true" layout="ResponsiveGridLayout">
+			<Label text="Key" required="true" />
+			<Input value="{/externalKey}" maxLength="80" valueLiveUpdate="true" submit=".saveClaimScreenPressed" />
+
+			<CheckBox text="Assign to existing screen" selected="{/reuseScreen}" visible="{=${screens>/}.length &gt; 0}"
+				tooltip="If active, no new screen will be created but an existing one reused, which is especially useful if an existing already onboarded AppleTV was reset and should be restored." />
+
+			<Label text="Screen" required="true" />
+			<Select forceSelection="false" selectedKey="{/screenId}" items="{screens>/}" visible="{/reuseScreen}">
+				<core:Item key="{screens>id}" text="{screens>name}" />
+			</Select>
+		</form:SimpleForm>
+		<beginButton>
+			<Button text="Next" press=".saveClaimScreenPressed"
+				enabled="{= ${/externalKey} !== undefined &amp;&amp; ${/externalKey}.length > 0}" />
+		</beginButton>
+		<endButton>
+			<Button text="Cancel" press=".cancelClaimScreenPressed" />
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

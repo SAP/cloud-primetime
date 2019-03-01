@@ -1,0 +1,60 @@
+<html>
+<head>
+<title>PrimeTime - URL Grid</title>
+</head>
+
+<script>
+	function getUrlParameter(name) {
+		name = name.replace(/[\[\]]/g, '\\$&');
+		var url = window.location.href;
+		var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'), results = regex
+				.exec(url);
+		if (!results)
+			return null;
+		if (!results[2])
+			return '';
+
+		return decodeURIComponent(results[2].replace(/\+/g, ' '));
+	}
+
+	var gridX = parseInt(getUrlParameter("gridX") != null ? getUrlParameter("gridX")
+			: "2");
+	var gridY = parseInt(getUrlParameter("gridY") != null ? getUrlParameter("gridY")
+			: "2");
+	var ratio = parseInt(getUrlParameter("ratio") != null ? getUrlParameter("ratio")
+			: "0");
+	var urls = getUrlParameter("urls").split(";");
+
+	document.write("<frameset rows=\"");
+	for (var y = 0; y < gridY; y++) {
+		if (ratio > 0 && y == 0) {
+			document.write(ratio);
+		} else {
+			document.write((100 - ratio) / (gridY - (ratio > 0 ? 1 : 0)));
+		}
+		if (y < gridY - 1) {
+			document.write(",");
+		}
+	}
+	document.write("\" cols=\"");
+	for (var x = 0; x < gridX; x++) {
+		if (ratio > 0 && x == 0) {
+			document.write(ratio);
+		} else {
+			document.write((100 - ratio) / (gridX - (ratio > 0 ? 1 : 0)));
+		}
+		if (x < gridX - 1) {
+			document.write(",");
+		}
+	}
+	document.write("\">");
+
+	for (var i = 0; i < urls.length; i++) {
+		document
+				.write("<frame src=\"" + urls[i]
+				+ "\" noresize=\"noresize\" frameborder=\"0\" marginwidth=\"0\" marginheight=\"0\" vspace=\"0\" scrolling=\"no\">");
+	}
+	document.write("</frameset>");
+</script>
+
+</html>

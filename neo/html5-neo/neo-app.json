@@ -1,0 +1,13 @@
+{
+	"routes": [
+		{
+			"path": "/s/api",
+			"target": {
+				"type": "destination",
+				"name": "primetime",
+				"entryPath": "/s/api"
+			},
+			"description": "PrimeTime Server"
+		}
+	]
+}

@@ -1,0 +1,14 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:form="sap.ui.layout.form">
+	<Dialog title="New Screen" draggable="true">
+		<form:SimpleForm editable="true" layout="ResponsiveGridLayout">
+			<Label text="Name" required="true" />
+			<Input value="{/name}" maxLength="80" valueLiveUpdate="true" description="e.g. building3-g3-1" submit=".saveScreenPressed" />
+		</form:SimpleForm>
+		<beginButton>
+			<Button text="Next" press=".saveScreenPressed" enabled="{= ${/name} !== undefined &amp;&amp; ${/name}.length > 0}" />
+		</beginButton>
+		<endButton>
+			<Button text="Cancel" press=".cancelScreenPressed" />
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

@@ -1,0 +1,8 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<SelectDialog noDataText="No pages found" title="Select Page(s)" search="onCatalogSearch" confirm="onPageCatalogClose"
+		cancel="onPageCatalogClose" items="{pageCatalog>/}">
+		<StandardListItem title="{=typeof ${pageCatalog>title} !== 'undefined' ? ${pageCatalog>title} : ${pageCatalog>name}}"
+			description="by {pageCatalog>ownersDisplayText}" icon="{parts:['pageCatalog>'], formatter:'.getPagePreviewIcon'}"
+			iconDensityAware="false" iconInset="false" type="Active" tooltip="{pageCatalog>name}" />
+	</SelectDialog>
+</core:FragmentDefinition>

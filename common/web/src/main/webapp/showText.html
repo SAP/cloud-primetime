@@ -1,0 +1,27 @@
+<head>
+<title>PrimeTime - Text</title>
+<script type="text/javascript"
+	src="https://sapui5.hana.ondemand.com/1.63.0/resources/sap-ui-core.js"
+	data-sap-ui-theme="sap_belize_plus" data-sap-ui-libs="sap.m"
+	data-sap-ui-bindingSyntax="complex" data-sap-ui-compatVersion="edge"
+	data-sap-ui-preload="async"></script>
+
+<link href="/ui/css/main.css" rel="stylesheet" type="text/css">
+
+</head>
+<html>
+
+<script>
+	var text = jQuery.sap.getUriParameters().get("text");
+	if (text != null) {
+		sap.ui.getCore().attachInit(function() {
+			new sap.m.FormattedText({
+				htmlText : text
+			}).addStyleClass("fullPageText").placeAt("content");
+		});
+	}
+</script>
+</head>
+<body class="sapUiBody" role="application" id="content">
+</body>
+</html>

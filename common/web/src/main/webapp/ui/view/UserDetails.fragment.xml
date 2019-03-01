@@ -1,0 +1,20 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:form="sap.ui.layout.form"
+	xmlns:l="sap.ui.layout">
+	<ResponsivePopover title="User Details" class="sapUiPopupWithPadding" placement="Bottom" contentWidth="400px">
+		<content>
+			<form:SimpleForm editable="false" layout="ResponsiveGridLayout">
+				<Label text="Name" />
+				<Text text="{user>/displayName}" />
+
+				<Label text="User Id" />
+				<Text text="{user>/userId}" />
+			</form:SimpleForm>
+		</content>
+		<beginButton>
+			<Button text="Show Details" press="onGotoUserDetails" />
+		</beginButton>
+		<endButton>
+			<Button text="Log Out" press="onLogout" />
+		</endButton>
+	</ResponsivePopover>
+</core:FragmentDefinition>

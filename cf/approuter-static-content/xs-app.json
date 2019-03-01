@@ -1,0 +1,14 @@
+{
+	"routes": [
+		{
+			"source": "^/s/api/",
+			"target": "/s/api/",
+			"destination": "app",
+			"csrfProtection": false
+		},
+		{
+			"source": "^/",
+			"localDir": "resources"
+		}
+	]
+}

@@ -1,0 +1,23 @@
+<mvc:View xmlns:c="sap.ui.core" controllerName="sap.primetime.ui.controller.RemoteControl" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:form="sap.ui.layout.form" xmlns:f="sap.f" xmlns:l="sap.ui.layout">
+	<Page title="Remote Control: {screen>/name}" showNavButton="true" navButtonPress="navCompanion">
+		<headerContent>
+			<Button icon="sap-icon://play" type="Transparent" press="onAutoPlay" tooltip="Switch to Auto-Play"
+				visible="{=${screen>/pageToShow} &gt; -1}" />
+			<Button icon="sap-icon://pause" type="Transparent" press="onPause" tooltip="Pause" visible="{=${screen>/pageToShow} === -1}" />
+		</headerContent>
+		<content>
+			<l:HorizontalLayout id="tileContainer" allowWrapping="true" content="{screen>/playlist/pageReferences}">
+				<GenericTile tooltip="Select to pause on this page"
+					backgroundImage="{= typeof ${screen>page/screenshot} !== 'undefined' ? '/s/api/fileservice/files/' + ${screen>page/screenshot/id} + '/content': '/ui/img/missing_screenshot.png'}"
+					frameType="OneByOne" press="onSelectPage" class="sapUiTinyMarginBegin sapUiTinyMarginTop"
+					state="{=${screen>isRequested} ? 'Loading' : 'Loaded'}">
+					<TileContent>
+						<NewsContent contentText="{=typeof ${screen>page/title} !== 'undefined' ? ${screen>page/title} : ${screen>page/name}}"
+							subheader="{= ${screen>currentlyShown} ? '-currently shown-' : ''}" />
+					</TileContent>
+				</GenericTile>
+			</l:HorizontalLayout>
+		</content>
+	</Page>
+</mvc:View>

@@ -1,0 +1,89 @@
+<mvc:View controllerName="sap.primetime.ui.controller.PageDetails" xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core"
+	xmlns="sap.m" xmlns:u="sap.ui.unified" xmlns:form="sap.ui.layout.form" xmlns:l="sap.ui.layout">
+	<Page title="Page Details" showNavButton="true" navButtonPress="navHome">
+		<headerContent>
+			<Button icon="sap-icon://role" type="Transparent" press="onManageOwners" tooltip="Manage Owners" visible="{page>/isOwner}" />
+			<Button icon="sap-icon://copy" type="Transparent" press="handleCopyPress" tooltip="Copy" />
+			<Button icon="sap-icon://delete" type="Transparent" press="onDeleteObject" tooltip="Delete" visible="{page>/isOwner}" />
+			<Button icon="sap-icon://action" type="Transparent" press="onTestPage" tooltip="Preview" />
+		</headerContent>
+		<content>
+			<MessageStrip text="You either have no access to this entity or there is no entity with this Id."
+				visible="{=typeof ${page>/id} === 'undefined'}" type="Error" showIcon="true" class="sapUiSmallMargin" />
+			<l:BlockLayout background="Dashboard" visible="{=typeof ${page>/id} !== 'undefined'}">
+				<l:BlockLayoutRow>
+					<l:BlockLayoutCell>
+						<Toolbar style="Clear" visible="{page>/isOwner}">
+							<Title titleStyle="H1" text="Properties" />
+							<ToolbarSpacer />
+							<u:FileUploader uploadComplete="handleUploadComplete" uploadOnChange="true" sameFilenameAllowed="true"
+								uploadUrl="/s/api/pageservice/pages/{page>/id}/screenshot" buttonOnly="true" iconOnly="true" style="Transparent"
+								icon="sap-icon://add-photo" tooltip="Upload Cover Image"
+								visible="{= !${editState>/pageEditMode} &amp;&amp; ${page>/pageType} !== 'PDF' &amp;&amp; ${page>/pageType} !== 'IMAGE' &amp;&amp; ${system>/fileSupport}}" />
+							<Button icon="sap-icon://sys-cancel" type="Transparent" press="handleRemoveScreenshot" tooltip="Remove Custom Cover Image"
+								visible="{=!${editState>/pageEditMode} &amp;&amp; typeof ${page>/screenshot} !== 'undefined'}" />
+							<Button icon="sap-icon://edit" type="Transparent" press="handleEditPress" tooltip="Edit"
+								visible="{= !${editState>/pageEditMode}}" />
+							<Button text="Save" type="Emphasized" press="handleSavePress" visible="{= ${editState>/pageEditMode}}" />
+							<Button text="Cancel" press="handleCancelPress" visible="{= ${editState>/pageEditMode}}" />
+						</Toolbar>
+						<Toolbar style="Clear" visible="{=!${page>/isOwner}}">
+							<Title titleStyle="H1" text="Properties" />
+						</Toolbar>
+						<l:VerticalLayout id="pageDetails" width="100%"></l:VerticalLayout>
+					</l:BlockLayoutCell>
+					<l:BlockLayoutCell>
+						<Toolbar style="Clear">
+							<Title titleStyle="H1" text="Preview" />
+						</Toolbar>
+						<l:VerticalLayout width="100%" id="previewFrame">
+						</l:VerticalLayout>
+					</l:BlockLayoutCell>
+				</l:BlockLayoutRow>
+				<l:BlockLayoutRow>
+					<l:BlockLayoutCell visible="{= !${editState>/pageEditMode} &amp;&amp; ${page>/isOwner}}">
+						<Toolbar style="Clear">
+							<Title titleStyle="H1" text="Statistics" />
+							<ToolbarSpacer />
+							<Button icon="sap-icon://cause" tooltip="Show Usage Details" type="Transparent" press="onUsageDetails"
+								visible="{=${ref>/userPlaylists}.length &gt; 0}" />
+						</Toolbar>
+						<form:SimpleForm editable="false" layout="ResponsiveGridLayout">
+							<Label text="Shown on Screens" />
+							<Text text="{page>/stats_viewCount} times" />
+
+							<Label text="Total Screentime" />
+							<Text text="{path: 'page>/stats_showTime', formatter:'.formatSeconds'}" />
+
+							<Label text="Used In Playlists" />
+							<Text text="{=${ref>/userPlaylists}.length} yours, {ref>/foreignPlaylists} others" />
+						</form:SimpleForm>
+					</l:BlockLayoutCell>
+					<l:BlockLayoutCell visible="{= ${page>/pageType} === 'TEMPLATE' &amp;&amp; !${editState>/pageEditMode}}">
+						<Toolbar style="Clear">
+							<Title titleStyle="H1" text="Page Content" />
+							<ToolbarSpacer />
+							<Button text="Save" type="Emphasized" press="handleSaveTemplateValues" />
+						</Toolbar>
+						<l:VerticalLayout content="{parameters>/}">
+							<l:VerticalLayout>
+								<Label text="{parameters>name}:" visible="{= ${parameters>type} === 'text'}" />
+								<TextArea value="{parameters>value}" growing="true" growingMaxLines="9" valueLiveUpdate="true"
+									visible="{= ${parameters>type} === 'text'}" class="sapUiSmallMarginBottom" />
+
+								<Label text="{parameters>name}:" visible="{= ${parameters>type} === 'file'}" />
+								<l:HorizontalLayout visible="{= ${parameters>type} === 'file'}">
+									<Select forceSelection="false" selectedKey="{parameters>value}" items="{files>/}" class="sapUiSmallMarginBottom">
+										<core:Item key="{files>id}" text="{files>name}" />
+									</Select>
+									<u:FileUploader uploadComplete=".refreshFiles" uploadOnChange="true" sameFilenameAllowed="true"
+										uploadUrl="/s/api/fileservice/files" buttonOnly="true" buttonText="Upload File" class="sapUiTinyMarginBegin" />
+								</l:HorizontalLayout>
+							</l:VerticalLayout>
+						</l:VerticalLayout>
+					</l:BlockLayoutCell>
+				</l:BlockLayoutRow>
+			</l:BlockLayout>
+		</content>
+	</Page>
+</mvc:View>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<library xmlns="http://www.sap.com/sap.ui.library.xsd" >
+
+	<name>de.nysoft</name>
+	<vendor>Manuel Richarz</vendor>
+	<copyright>Library for SAPUI5 and OpenUI5
+ * (c) Copyright 2015-2015 Manuel Richarz.
+ * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.</copyright>
+	<version>1.0.0</version>
+
+	<documentation>Library for SAPUI5 and OpenUI5</documentation>
+
+	<dependencies>
+		<dependency>
+			<libraryName>sap.ui.core</libraryName>
+		</dependency>
+	</dependencies>
+
+</library>

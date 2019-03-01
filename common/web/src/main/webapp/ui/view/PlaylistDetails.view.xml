@@ -1,0 +1,85 @@
+<mvc:View controllerName="sap.primetime.ui.controller.PlaylistDetails" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
+	xmlns:form="sap.ui.layout.form" xmlns:l="sap.ui.layout">
+	<Page title="Playlist Details" showNavButton="true" navButtonPress="navHome">
+		<headerContent>
+			<Button icon="sap-icon://role" type="Transparent" press="onManageOwners" tooltip="Manage Owners" visible="{playlist>/isOwner}" />
+			<Button icon="sap-icon://copy" type="Transparent" press="handleCopyPress" tooltip="Copy" />
+			<Button icon="sap-icon://delete" type="Transparent" press="onDeleteObject" tooltip="Delete" visible="{playlist>/isOwner}" />
+			<Button icon="sap-icon://action" type="Transparent" press="onTestPlaylist" tooltip="Preview" />
+		</headerContent>
+		<content>
+			<MessageStrip text="You either have no access to this entity or there is no entity with this Id."
+				visible="{=typeof ${playlist>/id} === 'undefined'}" type="Error" showIcon="true" class="sapUiSmallMargin" />
+			<l:BlockLayout background="Dashboard" visible="{=typeof ${playlist>/id} !== 'undefined'}">
+				<l:BlockLayoutRow>
+					<l:BlockLayoutCell>
+						<Toolbar style="Clear" visible="{playlist>/isOwner}">
+							<Title titleStyle="H1" text="Properties" />
+							<ToolbarSpacer />
+							<Button icon="sap-icon://edit" type="Transparent" press="handleEditPress" tooltip="Edit"
+								visible="{= !${editState>/playlistEditMode}}" />
+							<Button text="Save" type="Emphasized" press="handleSavePress" visible="{= ${editState>/playlistEditMode}}" />
+							<Button text="Cancel" press="handleCancelPress" visible="{= ${editState>/playlistEditMode}}" />
+						</Toolbar>
+						<Toolbar style="Clear" visible="{=!${playlist>/isOwner}}">
+							<Title titleStyle="H1" text="Properties" />
+						</Toolbar>
+						<l:VerticalLayout id="playlistDetails" width="100%"></l:VerticalLayout>
+					</l:BlockLayoutCell>
+					<l:BlockLayoutCell>
+						<Toolbar style="Clear">
+							<Title titleStyle="H1" text="Runtime Metrics" />
+							<ToolbarSpacer />
+							<Button icon="sap-icon://cause" tooltip="Show Usage Details" type="Transparent" press="onUsageDetails"
+								visible="{=${ref>/userScreens}.length &gt; 0 || ${ref>/userPlaylists}.length &gt; 0}" />
+						</Toolbar>
+						<form:SimpleForm editable="false" layout="ResponsiveGridLayout">
+							<Label text="Pages" />
+							<Text text="{=${playlistExpanded>/pageReferences}.length}" />
+
+							<Label text="Overall Duration" />
+							<Text text="{path: 'playlistExpanded>/overallDuration', formatter:'.formatSeconds'}" />
+
+							<Label text="Used In Screens" />
+							<Text text="{=${ref>/userScreens}.length} yours, {ref>/foreignScreens} others" />
+
+							<Label text="Used In Playlists" />
+							<Text text="{=${ref>/userPlaylists}.length} yours, {ref>/foreignPlaylists} others" />
+						</form:SimpleForm>
+					</l:BlockLayoutCell>
+				</l:BlockLayoutRow>
+				<l:BlockLayoutRow>
+					<l:BlockLayoutCell>
+						<Toolbar style="Clear" visible="{playlist>/isOwner}">
+							<Title titleStyle="H1" text="Content to Show" />
+							<ToolbarSpacer />
+							<Button icon="sap-icon://attachment" tooltip="Add Files" type="Transparent" press="onAddFile" visible="{system>/fileSupport}" />
+							<Button icon="sap-icon://add-document" tooltip="Add Pages" type="Transparent" press="onAddPage" />
+							<Button icon="sap-icon://add-process" tooltip="Add Playlists" type="Transparent" press="onAddPlaylist" />
+						</Toolbar>
+						<l:HorizontalLayout allowWrapping="true" content="{playlist>/pageReferences}">
+							<GenericTile tooltip="{playlist>page/description}"
+								backgroundImage="{=${playlist>refType} === 'FILE' ? ${playlist>file/screenshotUrl} : ${playlist>page/screenshotUrl}}"
+								scope="{=${playlist>/isOwner} ? 'Actions' : 'Display'}" frameType="OneByOne" press="onSelectPage"
+								class="sapUiTinyMarginBegin sapUiTinyMarginTop">
+								<TileContent>
+									<NewsContent
+										contentText="{=${playlist>refType} === 'PAGE' ? ${playlist>page/name} : ${playlist>refType} === 'PLAYLIST' ? ${playlist>playlist/name} : ${playlist>file/name}}"
+										subheader="{=${playlist>refType} === 'PLAYLIST' ? '' : (${playlist>pageDisplayDurationOverride} &gt; 0 ? ${path: 'playlist>pageDisplayDurationOverride', formatter:'.formatSeconds'} : ${path: 'playlist>/pageDisplayDuration', formatter:'.formatSeconds'})}" />
+								</TileContent>
+							</GenericTile>
+						</l:HorizontalLayout>
+						<!-- <TileContainer editable="true" allowAdd="true" tileDelete="onDeletePage" tileMove="onMovePage" tiles="{playlist>/pageReferences}"> 
+							<CustomTile> <GenericTile tooltip="{playlist>page/description}" backgroundImage="{= typeof ${playlist>page/screenshot} !== 'undefined' ? '/s/api/fileservice/files/' 
+							+ ${playlist>page/screenshot/id} + '/content': '/ui/img/missing_screenshot.png'}" scope="Actions" frameType="OneByOne" press="onSelectPage" class="sapUiTinyMarginBegin 
+							sapUiTinyMarginTop"> <TileContent> <NewsContent contentText="{=${playlist>refType} === 'PAGE' ? ${playlist>page/name} : ${playlist>playlist/name}}" 
+							subheader="{=${playlist>refType} === 'PLAYLIST' ? '' : (${playlist>pageDisplayDurationOverride} &gt; 0 ? ${playlist>pageDisplayDurationOverride} 
+							: ${playlist>/pageDisplayDuration}) + 's'}" /> </TileContent> </GenericTile> </CustomTile> </TileContainer> -->
+						<MessageStrip text="Playlist does not contain any content yet." showIcon="true"
+							visible="{=${playlist>/pageReferences}.length === 0}" />
+					</l:BlockLayoutCell>
+				</l:BlockLayoutRow>
+			</l:BlockLayout>
+		</content>
+	</Page>
+</mvc:View>

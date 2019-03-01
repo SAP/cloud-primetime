@@ -1,0 +1,61 @@
+<mvc:View xmlns:c="sap.ui.core" controllerName="sap.primetime.ui.controller.SelfTest" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
+	xmlns:form="sap.ui.layout.form" xmlns:f="sap.f" xmlns:l="sap.ui.layout">
+	<Page title="Self Test" showNavButton="false">
+		<content>
+			<l:BlockLayout background="Dashboard">
+				<l:BlockLayoutRow>
+					<l:BlockLayoutCell title="Browser">
+						<form:SimpleForm editable="false" layout="ResponsiveGridLayout">
+							<Label text="Mobile" />
+							<Text text="{info>/mobile}" />
+
+							<Label text="Browser Name" />
+							<Text text="{info>/browserName}" />
+
+							<Label text="Browser Version" />
+							<Text text="{info>/browserVersion}" />
+						</form:SimpleForm>
+					</l:BlockLayoutCell>
+					<l:BlockLayoutCell title="Screen">
+						<form:SimpleForm editable="false" layout="ResponsiveGridLayout">
+							<Label text="Touch Supported" />
+							<Text text="{info>/touchSupported}" />
+
+							<Label text="Fullscreen" />
+							<Text text="{info>/fullscreen}" />
+
+							<Label text="Landscape Mode" />
+							<Text text="{info>/orientation}" />
+						</form:SimpleForm>
+					</l:BlockLayoutCell>
+				</l:BlockLayoutRow>
+				<l:BlockLayoutRow>
+					<l:BlockLayoutCell title="Environment">
+						<form:SimpleForm editable="false" layout="ResponsiveGridLayout">
+							<Label text="OS Name" />
+							<Text text="{info>/osName}" />
+
+							<Label text="OS Version" />
+							<Text text="{info>/osVersion}" />
+						</form:SimpleForm>
+					</l:BlockLayoutCell>
+					<l:BlockLayoutCell title="Form Factor">
+						<form:SimpleForm editable="false" layout="ResponsiveGridLayout">
+							<Label text="Combi Device" />
+							<Text text="{info>/isCombi}" />
+
+							<Label text="Desktop" />
+							<Text text="{info>/isDesktop}" />
+
+							<Label text="Tablet" />
+							<Text text="{info>/isTablet}" />
+
+							<Label text="Phone" />
+							<Text text="{info>/isPhone}" />
+						</form:SimpleForm>
+					</l:BlockLayoutCell>
+				</l:BlockLayoutRow>
+			</l:BlockLayout>
+		</content>
+	</Page>
+</mvc:View>

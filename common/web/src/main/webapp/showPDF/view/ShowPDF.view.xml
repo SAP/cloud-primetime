@@ -1,0 +1,6 @@
+<mvc:View id="showPDF" height="100%" controllerName="sap.hdb.showPDF.controller.ShowPDF" xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core" xmlns:nysoft="nysoft" xmlns="sap.m">
+
+	<Page id="pdfPage" showHeader="false" showFooter="false" enableScrolling="false" />
+
+</mvc:View>

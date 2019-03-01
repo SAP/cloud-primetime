@@ -1,0 +1,44 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:tnt="sap.tnt" xmlns:core="sap.ui.core" xmlns:form="sap.ui.layout.form">
+	<VBox>
+		<MessageStrip text="No content will be displayed as there is no playlist assigned yet." type="Warning" showIcon="true"
+			class="sapUiSmallMarginBottom" visible="{=typeof ${screen>/playlist/id} === 'undefined'}" />
+		<MessageStrip text="No content will be displayed as the assigned playlist does not contain any pages." type="Warning"
+			showIcon="true" class="sapUiSmallMarginBottom"
+			visible="{=typeof ${screen>/playlist/id} !== 'undefined' &amp;&amp; ${screen>/playlist/pageReferences}.length === 0}">
+			<link>
+				<Link text="Go to playlist" href="#/playlist/{screen>/playlist/id}" />
+			</link>
+		</MessageStrip>
+		<form:SimpleForm editable="false" layout="ResponsiveGridLayout">
+			<Label text="Name" />
+			<Text text="{screen>/name}" tooltip="{screen>/externalKey}" />
+
+			<Label text="Playlist" />
+			<Link text="{=${screen>/playlist/name} ? ${screen>/playlist/name} : '-none assigned yet-'}" href="#/playlist/{screen>/playlist/id}"
+				visible="{=${screen>/screenshotMode} === false}" />
+
+			<Label text="Screenshot Mode" />
+			<tnt:InfoLabel text="{screen>/screenshotMode}" displayOnly="true" colorScheme="{=${screen>/screenshotMode} ? 8 : 3}"
+				visible="{screen>/screenshotMode}" />
+
+			<Label text="Transition" />
+			<Text text="{screen>/transitionMode}" visible="{=${screen>/screenshotMode} === false}" />
+
+			<Label text="Show Header" />
+			<tnt:InfoLabel text="{screen>/showHeader}" displayOnly="true" colorScheme="{=${screen>/showHeader} ? 8 : 3}"
+				visible="{=${screen>/screenshotMode} === false}" />
+
+			<Label text="Show Footer" />
+			<tnt:InfoLabel text="{screen>/showFooter}" displayOnly="true" colorScheme="{=${screen>/showFooter} ? 8 : 3}"
+				visible="{=${screen>/screenshotMode} === false}" />
+
+			<Label text="Show Owners" />
+			<tnt:InfoLabel text="{screen>/showOwners}" displayOnly="true" colorScheme="{=${screen>/showOwners} ? 8 : 3}"
+				visible="{=${screen>/showFooter} &amp;&amp; ${screen>/screenshotMode} === false}" />
+
+			<Label text="Low-Memory Mode" />
+			<tnt:InfoLabel text="{screen>/lowMemoryMode}" displayOnly="true" colorScheme="{=${screen>/lowMemoryMode} ? 8 : 3}"
+				visible="{=${screen>/lowMemoryMode} &amp;&amp; ${screen>/screenshotMode} === false}" />
+		</form:SimpleForm>
+	</VBox>
+</core:FragmentDefinition>

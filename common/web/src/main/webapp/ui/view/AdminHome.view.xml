@@ -1,0 +1,821 @@
+<mvc:View controllerName="sap.primetime.ui.controller.AdminHome" xmlns:mvc="sap.ui.core.mvc" xmlns:u="sap.ui.unified" xmlns="sap.m"
+	xmlns:f="sap.f" xmlns:tnt="sap.tnt" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:mc="sap.suite.ui.microchart">
+	<Page>
+		<customHeader>
+			<Bar>
+				<contentLeft>
+					<Image class="sapUiSmallMarginBeginEnd" src="https://www.sap.com/dam/application/shared/logos/sap-logo-svg.svg" width="3em"
+						press="onLogoPress" />
+					<Title text="PrimeTime" />
+				</contentLeft>
+				<contentMiddle>
+					<Button text="Create Sample Data" type="Emphasized" press="onSampleData"
+						tooltip="This is an empty installation. To get started more quickly you can have some data generated."
+						visible="{=${system>/stats_pages} === 0 &amp;&amp; ${system>/adminMode}}" />
+					<Button text="Stop Impersonation" type="Reject" press="onStopImpersonation"
+						tooltip="You are currently viewing the page as someone else." visible="{=typeof ${system>/impersonation} !== 'undefined'}" />
+				</contentMiddle>
+				<contentRight>
+					<Button icon="sap-icon://sys-help" type="Transparent" press="onAbout" tooltip="About" class="sapUiTinyMarginEnd" />
+					<f:Avatar displaySize="XS" src="{user>/imageLink}" class="sapUiTinyMarginTopBottom sapUiTinyMarginEnd"
+						press="onShowUserDetails" tooltip="User Information" />
+				</contentRight>
+			</Bar>
+		</customHeader>
+		<content>
+			<IconTabBar id="tabBar" class="sapUiResponsiveContentPadding" expandable="false" headerMode="Inline">
+				<items>
+					<IconTabFilter icon="sap-icon://home" design="Vertical" text="Overview" key="overview">
+						<l:BlockLayout background="Dashboard">
+							<l:BlockLayoutRow>
+								<l:BlockLayoutCell
+									visible="{parts: [{path: 'screens>/'}, {path: 'playlists>/'}, {path: 'pages>/'}, {path: 'files>/'}], formatter: '.userHasNoContent'}">
+									<Toolbar style="Clear">
+										<Title titleStyle="H1" text="Introduction" />
+									</Toolbar>
+									<FormattedText
+										htmlText="&lt;strong&gt;Your simple solution for digital signage&lt;/strong&gt;
+						&lt;p&gt;
+						&lt;ul&gt;
+						&lt;li&gt;Manage playlists and assign them to your screens&lt;/li&gt;
+						&lt;li&gt;Manage content you are responsible for&lt;/li&gt;
+						&lt;li&gt;Create your own playlist out of a catalog of public pages&lt;/li&gt;
+						&lt;li&gt;Any screen, any OS, no client installation required&lt;/li&gt;
+						&lt;li&gt;Apple TV support with easy onboarding&lt;/li&gt;
+						&lt;/ul&gt;" />
+									<Link text="Getting Started" href="{system>/gettingStartedUrl}" target="_blank"
+										visible="{=typeof ${system>/gettingStartedUrl} !== 'undefined'}" />
+								</l:BlockLayoutCell>
+								<l:BlockLayoutCell
+									visible="{parts: [{path: 'screens>/'}, {path: 'playlists>/'}, {path: 'pages>/'}, {path: 'files>/'}], formatter: '.userHasContent'}">
+									<Toolbar style="Clear">
+										<Title titleStyle="H1" text="Your Data" />
+									</Toolbar>
+									<List showSeparators="None">
+										<CustomListItem class="sapUiSmallMarginBottom">
+											<FlexBox justifyContent="SpaceBetween">
+												<HBox>
+													<core:Icon src="sap-icon://sys-monitor" />
+													<Title text="Screens" class="sapUiTinyMarginBegin" />
+												</HBox>
+												<mc:StackedBarMicroChart press="press" height="100%" precision="0" class="sapUiNoMargin">
+													<mc:StackedBarMicroChartBar valueColor="Good"
+														displayValue="{path: 'screens>/', formatter:'.activeScreens'} active" value="{path: 'screens>/', formatter:'.activeScreens'}" />
+													<mc:StackedBarMicroChartBar valueColor="Error"
+														displayValue="{path: 'screens>/', formatter:'.inactiveScreens'} inactive"
+														value="{path: 'screens>/', formatter:'.inactiveScreens'}" />
+												</mc:StackedBarMicroChart>
+											</FlexBox>
+										</CustomListItem>
+										<CustomListItem class="sapUiSmallMarginBottom">
+											<FlexBox justifyContent="SpaceBetween">
+												<HBox>
+													<core:Icon src="sap-icon://media-play" />
+													<Title text="Playlists" class="sapUiTinyMarginBegin" />
+												</HBox>
+												<Text text="{=${playlists>/}.length}" />
+											</FlexBox>
+										</CustomListItem>
+										<CustomListItem class="sapUiSmallMarginBottom">
+											<FlexBox justifyContent="SpaceBetween">
+												<HBox>
+													<core:Icon src="sap-icon://document" />
+													<Title text="Pages" class="sapUiTinyMarginBegin" />
+												</HBox>
+												<Text text="{=${pages>/}.length}" />
+											</FlexBox>
+										</CustomListItem>
+										<CustomListItem visible="{system>/fileSupport}">
+											<FlexBox justifyContent="SpaceBetween">
+												<HBox>
+													<core:Icon src="sap-icon://attachment" />
+													<Title text="Files" class="sapUiTinyMarginBegin" />
+												</HBox>
+												<Text text="{=${files>/}.length}" />
+											</FlexBox>
+										</CustomListItem>
+									</List>
+								</l:BlockLayoutCell>
+								<l:BlockLayoutCell visible="{system>/adminMode}">
+									<Toolbar style="Clear">
+										<Title titleStyle="H1" text="Admin Perspective" />
+									</Toolbar>
+									<List showSeparators="None">
+										<CustomListItem class="sapUiSmallMarginBottom">
+											<FlexBox justifyContent="SpaceBetween">
+												<HBox>
+													<core:Icon src="sap-icon://sys-monitor" />
+													<Title text="Screens" class="sapUiTinyMarginBegin" />
+												</HBox>
+												<mc:StackedBarMicroChart press="press" height="100%" precision="0" class="sapUiNoMargin">
+													<mc:StackedBarMicroChartBar valueColor="Good"
+														displayValue="{path: 'data_screens>/', formatter:'.activeScreens'} active"
+														value="{path: 'data_screens>/', formatter:'.activeScreens'}" />
+													<mc:StackedBarMicroChartBar valueColor="Error"
+														displayValue="{path: 'data_screens>/', formatter:'.inactiveScreens'} inactive"
+														value="{path: 'data_screens>/', formatter:'.inactiveScreens'}" />
+												</mc:StackedBarMicroChart>
+											</FlexBox>
+										</CustomListItem>
+										<CustomListItem class="sapUiSmallMarginBottom">
+											<FlexBox justifyContent="SpaceBetween">
+												<HBox>
+													<core:Icon src="sap-icon://media-play" />
+													<Title text="Playlists" class="sapUiTinyMarginBegin" />
+												</HBox>
+												<Text text="{=${data_playlists>/}.length}" />
+											</FlexBox>
+										</CustomListItem>
+										<CustomListItem class="sapUiSmallMarginBottom">
+											<FlexBox justifyContent="SpaceBetween">
+												<HBox>
+													<core:Icon src="sap-icon://document" />
+													<Title text="Pages" class="sapUiTinyMarginBegin" />
+												</HBox>
+												<Text text="{=${data_pages>/}.length}" />
+											</FlexBox>
+										</CustomListItem>
+										<CustomListItem visible="{system>/fileSupport}" class="sapUiSmallMarginBottom">
+											<FlexBox justifyContent="SpaceBetween">
+												<HBox>
+													<core:Icon src="sap-icon://attachment" />
+													<Title text="Files" class="sapUiTinyMarginBegin" />
+												</HBox>
+												<Text text="{=${data_files>/}.length}" />
+											</FlexBox>
+										</CustomListItem>
+										<CustomListItem>
+											<FlexBox justifyContent="SpaceBetween">
+												<HBox>
+													<core:Icon src="sap-icon://person-placeholder" />
+													<Title text="Users" class="sapUiTinyMarginBegin" />
+												</HBox>
+												<Text text="{=${data_users>/}.length}" />
+											</FlexBox>
+										</CustomListItem>
+									</List>
+								</l:BlockLayoutCell>
+								<l:BlockLayoutCell class="centered">
+									<Image src="/ui/img/logo.png" height="220px" decorative="true" class="autoScalingWidth" />
+								</l:BlockLayoutCell>
+								<l:BlockLayoutCell>
+									<Toolbar style="Clear">
+										<Title titleStyle="H1" text="PrimeTime Overall" />
+									</Toolbar>
+									<Carousel id="detailsCarousel" showPageIndicator="false" loop="true">
+										<pages>
+											<l:VerticalLayout>
+												<FormattedText
+													htmlText="&lt;strong&gt;Newest Features in March&lt;/strong&gt;
+						&lt;p&gt;
+						&lt;ul&gt;
+						&lt;li&gt;Open Source Release&lt;/li&gt;
+						&lt;li&gt;Support for page repetitions&lt;/li&gt;
+						&lt;li&gt;Much improved first-start experience&lt;/li&gt;
+						&lt;li&gt;Warnings if some data is missing&lt;/li&gt;
+						&lt;/ul&gt;" />
+												<Link text="See All &amp; Roadmap" href="{system>/newsUrl}" target="_blank"
+													visible="{=typeof ${system>/newsUrl} !== 'undefined'}" />
+											</l:VerticalLayout>
+											<l:VerticalLayout class="centered">
+												<Text text="See PrimeTime and the different types of content in action!" class="sapUiMediumMargin" />
+												<Button text="Open Example" type="Emphasized" press="onShowSamplePlaylist" />
+											</l:VerticalLayout>
+											<l:HorizontalLayout allowWrapping="false" class="centered">
+												<VBox class="sapUiSmallMargin">
+													<ObjectNumber state="None" emphasized="false" number="{system>/stats_screens}" class="hugeObjectNumber" />
+													<Label text="Screens" />
+												</VBox>
+												<VBox class="sapUiSmallMargin">
+													<ObjectNumber state="None" emphasized="false" number="{system>/stats_playlists}" class="hugeObjectNumber" />
+													<Label text="Playlists" />
+												</VBox>
+												<VBox class="sapUiSmallMargin">
+													<ObjectNumber state="None" emphasized="false" number="{system>/stats_pages}" class="hugeObjectNumber" />
+													<Label text="Pages" />
+												</VBox>
+												<VBox class="sapUiSmallMargin" visible="{system>/fileSupport}">
+													<ObjectNumber state="None" emphasized="false" number="{system>/stats_files}" class="hugeObjectNumber" />
+													<Label text="Files" />
+												</VBox>
+											</l:HorizontalLayout>
+										</pages>
+									</Carousel>
+								</l:BlockLayoutCell>
+							</l:BlockLayoutRow>
+							<l:BlockLayoutRow visible="{=${adpages>/}.length &gt; 0}">
+								<l:BlockLayoutCell>
+									<Toolbar style="Clear">
+										<Title titleStyle="H1" text="Popular Public Pages" />
+										<ToolbarSpacer />
+										<Link text="More" href="/#/publicpagecatalog" />
+									</Toolbar>
+									<l:HorizontalLayout allowWrapping="true" content="{adpages>/}">
+										<l:VerticalLayout class="sapUiResponsiveMargin">
+											<Image src="{adpages>screenshotUrl}" decorative="true" class="screenPage selectableTile autoScaling"
+												width="{system>/xDim}px" height="{system>/yDim}px" tooltip="{adpages>description}" press=".onSelectAdPage" />
+											<Toolbar design="Transparent" style="Clear" height="18px" class="maxCoverWidth">
+												<Link width="100%" textAlign="Center"
+													text="{= typeof ${adpages>title} !== 'undefined' ? ${adpages>title} : ${adpages>name}}" href="/#/page/{adpages>id}"
+													tooltip="{adpages>name}" />
+											</Toolbar>
+										</l:VerticalLayout>
+									</l:HorizontalLayout>
+								</l:BlockLayoutCell>
+							</l:BlockLayoutRow>
+						</l:BlockLayout>
+					</IconTabFilter>
+					<IconTabFilter icon="sap-icon://sys-monitor" design="Vertical" text="My Screens" key="screens">
+						<Toolbar visible="{=${screens>/}.length &gt; 0}">
+							<ToolbarSpacer />
+							<Button text="Claim Screen" type="Emphasized" press="onClaimScreen" />
+							<Button text="New Screen" press="onCreateScreen" />
+							<Label text="Display" />
+							<SegmentedButton selectedKey="{state>/screenView}">
+								<items>
+									<SegmentedButtonItem icon="sap-icon://table-chart" key="table" tooltip="Show as table" />
+									<SegmentedButtonItem icon="sap-icon://sys-monitor" key="grid" tooltip="Show as screens" />
+								</items>
+							</SegmentedButton>
+						</Toolbar>
+						<Table id="screensTable" inset="false" items="{screens>/}"
+							visible="{=${state>/screenView} === 'table' &amp;&amp; ${screens>/}.length &gt; 0}" alternateRowColors="true">
+							<columns>
+								<Column width="24px" vAlign="Middle" />
+								<Column>
+									<Text text="Name" />
+								</Column>
+								<Column>
+									<Text text="Assigned Playlist" />
+								</Column>
+								<Column minScreenWidth="Tablet">
+									<Text text="Pages" />
+								</Column>
+							</columns>
+
+							<items>
+								<ColumnListItem vAlign="Middle" type="Navigation" press=".onSelectScreen">
+									<cells>
+										<core:Icon src="sap-icon://circle-task-2" color="green" class="sapUiTinyMarginEnd"
+											visible="{=${screens>aliveState} === 'OK'}" tooltip="Active" />
+										<Text text="{screens>name}" />
+										<Text text="{screens>playlist/name}" />
+										<Text text="{=${screens>playlist/pageReferences}.length}" />
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+						<l:HorizontalLayout allowWrapping="true" content="{screens>/}"
+							visible="{=${state>/screenView} === 'grid' &amp;&amp; ${screens>/}.length &gt; 0}" class="sapUiContentPadding vboxElementList">
+							<VBox class="sapUiResponsiveMargin">
+								<Image src="/s/api/fileservice/screenkey/{screens>externalKey}" decorative="false" width="{system>/xDim}px"
+									height="{system>/yDim}px"
+									visible="{= typeof ${screens>externalKey} !== 'undefined' &amp;&amp; typeof ${screens>screenshotError} === 'undefined'}"
+									class="screenFrame selectableTile autoScaling" error=".onScreenshotError" press=".onSelectScreen" />
+								<Image src="/ui/img/white.png" decorative="false" width="{system>/xDim}px" height="{system>/yDim}px"
+									visible="{= typeof ${screens>externalKey} === 'undefined' || ${screens>screenshotError} === true}"
+									class="screenFrame selectableTile autoScaling" press=".onSelectScreen" />
+								<Text
+									text="Playlist: {=${screens>playlist} ? ${screens>playlist/name} + '\nOverall Runtime: ' + ${path: 'screens>playlist/overallDuration', formatter:'.formatSeconds'} : '-none assigned yet-'}"
+									class="onScreenText" />
+								<Toolbar design="Transparent" style="Clear" height="18px" class="maxCoverWidth">
+									<Link width="100%" textAlign="Center" text="{screens>name}" href="/#/screen/{screens>id}" />
+									<ToolbarSpacer />
+									<ObjectStatus class="sapUiTinyMarginEnd" active="false" state="None" icon="sap-icon://circle-task-2"
+										visible="{=${screens>aliveState} === 'INITIAL'}" tooltip="Not activated yet" />
+									<ObjectStatus class="sapUiTinyMarginEnd" active="false" state="Error" icon="sap-icon://alert"
+										visible="{=${screens>aliveState} === 'DELAYED'}" tooltip="Inactive" />
+									<ObjectStatus class="sapUiTinyMarginEnd" active="false" state="Success" icon="sap-icon://circle-task-2"
+										tooltip="Active" visible="{=${screens>aliveState} === 'OK'}" />
+								</Toolbar>
+							</VBox>
+						</l:HorizontalLayout>
+						<MessageStrip
+							text="You manage no screens yet. A screen is where your content (assembled into a playlist) ultimately is displayed."
+							class="sapUiTinyMarginBottom" showIcon="true" visible="{=${screens>/}.length === 0}" />
+						<l:BlockLayout background="Dashboard" visible="{=${screens>/}.length === 0}">
+							<l:BlockLayoutRow>
+								<l:BlockLayoutCell>
+									<Toolbar>
+										<Title text="Apple TV" />
+										<ToolbarSpacer />
+										<Button text="Claim Screen" type="Emphasized" press="onClaimScreen" />
+									</Toolbar>
+									<VBox class="centered">
+										<Text
+											text="If you onboarded through the PrimeTime Apple TV app and you see something similar to the image below, go ahead and claim it now with the code displayed on the screen."
+											class="sapUiTinyMarginBottom" />
+										<Image src="/ui/img/onboarding.jpg" decorative="true" width="{system>/xDim}px" height="{system>/yDim}px"
+											class="screenFrame autoScaling sapUiMediumMarginTop" />
+									</VBox>
+								</l:BlockLayoutCell>
+								<l:BlockLayoutCell>
+									<Toolbar>
+										<Title text="From Scratch" />
+										<ToolbarSpacer />
+										<Button text="New Screen" type="Emphasized" press="onCreateScreen" />
+									</Toolbar>
+									<VBox class="centered">
+										<Text
+											text="If you want to operate a screen without an Apple TV or already prepare everything until it is ready, create a new screen from here. The result is a unique URL that can be shown on any device." />
+									</VBox>
+								</l:BlockLayoutCell>
+								<l:BlockLayoutCell>
+									<Toolbar>
+										<Title text="Co-Owner" />
+									</Toolbar>
+									<VBox class="centered">
+										<Text
+											text="If a colleague already created a screen you should have access to, contact him to add you ({user>/userId}) as a co-owner so that you can see it here." />
+									</VBox>
+								</l:BlockLayoutCell>
+							</l:BlockLayoutRow>
+						</l:BlockLayout>
+					</IconTabFilter>
+					<IconTabFilter icon="sap-icon://media-play" design="Vertical" text="My Playlists" key="playlists">
+						<Toolbar visible="{=${playlists>/}.length &gt; 0}">
+							<ToolbarSpacer />
+							<Button text="New Playlist" type="Emphasized" press="onCreatePlaylist" />
+						</Toolbar>
+						<Table id="playlistsTable" inset="false" items="{playlists>/}" alternateRowColors="true"
+							visible="{=${playlists>/}.length &gt; 0}">
+							<columns>
+								<Column>
+									<Text text="Name" />
+								</Column>
+								<Column>
+									<Text text="Pages" />
+								</Column>
+								<Column minScreenWidth="Tablet">
+									<Text text="Default Page Duration" />
+								</Column>
+								<Column minScreenWidth="Tablet">
+									<Text text="Public" />
+								</Column>
+							</columns>
+
+							<items>
+								<ColumnListItem vAlign="Middle" type="Navigation" press=".onSelectPlaylist">
+									<cells>
+										<Text text="{playlists>name}" />
+										<Text text="{=${playlists>pageReferences}.length}" />
+										<Text text="{path: 'playlists>pageDisplayDuration', formatter:'.formatSeconds'}" />
+										<tnt:InfoLabel text="{playlists>listPublicly}" displayOnly="true" colorScheme="{=${playlists>listPublicly} ? 8 : 3}" />
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+						<MessageStrip
+							text="You manage no playlists yet. A playlist assembles your content into the right order with the correct display duration. It will be assigned to a screen."
+							class="sapUiTinyMarginBottom" showIcon="true" visible="{=${playlists>/}.length === 0}" />
+						<l:BlockLayout background="Dashboard" visible="{=${playlists>/}.length === 0}">
+							<l:BlockLayoutRow>
+								<l:BlockLayoutCell>
+									<Toolbar>
+										<Title text="From Scratch" />
+										<ToolbarSpacer />
+										<Button text="New Playlist" type="Emphasized" press="onCreatePlaylist" />
+									</Toolbar>
+									<VBox class="centered">
+										<Text
+											text="Create a new playlist and add either your own pages and files or public pages created by other users to it. Reorder as you like. It is also possible to nest playlists into each other which enables you to reuse a default playlist and extend it with your custom pages."
+											class="sapUiTinyMarginBottom" />
+										<Image src="/ui/img/playlist.jpg" decorative="true" class="autoScaling sapUiMediumMarginTop" />
+									</VBox>
+								</l:BlockLayoutCell>
+								<l:BlockLayoutCell>
+									<Toolbar>
+										<Title text="Co-Owner" />
+									</Toolbar>
+									<VBox class="centered">
+										<Text
+											text="If a colleague already created a playlist you should have access to, contact him to add you ({user>/userId}) as a co-owner so that you can see it here." />
+									</VBox>
+								</l:BlockLayoutCell>
+							</l:BlockLayoutRow>
+						</l:BlockLayout>
+					</IconTabFilter>
+					<IconTabFilter icon="sap-icon://document" design="Vertical" text="My Pages" key="pages">
+						<Toolbar visible="{=${pages>/}.length &gt; 0}">
+							<ToolbarSpacer />
+							<Button text="New Page" type="Emphasized" press="onCreatePage" />
+							<Label text="Display" />
+							<SegmentedButton selectedKey="{state>/pageView}">
+								<items>
+									<SegmentedButtonItem icon="sap-icon://table-chart" key="table" tooltip="Show as table" />
+									<SegmentedButtonItem icon="sap-icon://grid" key="grid" tooltip="Show as tiles" />
+								</items>
+							</SegmentedButton>
+						</Toolbar>
+						<Table id="pagesTable" inset="false" items="{pages>/}"
+							visible="{=${state>/pageView} === 'table' &amp;&amp; ${pages>/}.length &gt; 0}" alternateRowColors="true">
+							<columns>
+								<Column width="24px" vAlign="Middle" />
+								<Column>
+									<Text text="Name" />
+								</Column>
+								<Column minScreenWidth="Tablet">
+									<Text text="Type" />
+								</Column>
+								<Column minScreenWidth="Tablet">
+									<Text text="Public" />
+								</Column>
+							</columns>
+
+							<items>
+								<ColumnListItem vAlign="Middle" type="Navigation" press=".onSelectPage">
+									<cells>
+										<core:Icon src="{path:'pages>pageType', formatter:'.getPageIcon'}" decorative="true" />
+										<Text text="{pages>name}" />
+										<Text text="{pages>pageType}" />
+										<tnt:InfoLabel text="{pages>listPublicly}" displayOnly="true" colorScheme="{=${pages>listPublicly} ? 8 : 3}" />
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+						<l:HorizontalLayout allowWrapping="true" content="{pages>/}"
+							visible="{=${state>/pageView} === 'grid' &amp;&amp; ${pages>/}.length &gt; 0}" class="sapUiContentPadding vboxElementList">
+							<VBox class="sapUiResponsiveMargin autoScaling">
+								<Image src="{pages>screenshotUrl}" decorative="true" class="screenPage selectableTile autoScaling" width="{system>/xDim}px"
+									height="{system>/yDim}px" tooltip="{pages>description}" press=".onSelectPage" />
+								<Toolbar design="Transparent" style="Clear" height="18px" class="maxCoverWidth">
+									<Link width="100%" textAlign="Center" text="{pages>name}" href="/#/page/{pages>id}" />
+								</Toolbar>
+							</VBox>
+						</l:HorizontalLayout>
+						<MessageStrip text="You manage no pages yet. Pages will define your content that is shown on screens."
+							class="sapUiTinyMarginBottom" showIcon="true" visible="{=${pages>/}.length === 0}" />
+						<l:BlockLayout background="Dashboard" visible="{=${pages>/}.length === 0}">
+							<l:BlockLayoutRow>
+								<l:BlockLayoutCell>
+									<Toolbar>
+										<Title text="From Scratch" />
+										<ToolbarSpacer />
+										<Button text="New Page" type="Emphasized" press="onCreatePage" />
+									</Toolbar>
+									<VBox class="centered">
+										<Text
+											text="Select from a wide array of page types to display URLs, movies, images, PDFs or text messages. Once created, they can be used in playlists."
+											class="sapUiTinyMarginBottom" />
+										<Image src="/ui/img/pages.jpg" decorative="true" class="autoScaling sapUiMediumMarginTop" />
+									</VBox>
+								</l:BlockLayoutCell>
+								<l:BlockLayoutCell>
+									<Toolbar>
+										<Title text="Co-Owner" />
+									</Toolbar>
+									<VBox class="centered">
+										<Text
+											text="If a colleague already created a page you should have access to, contact him to add you ({user>/userId}) as a co-owner so that you can see it here." />
+									</VBox>
+								</l:BlockLayoutCell>
+							</l:BlockLayoutRow>
+						</l:BlockLayout>
+					</IconTabFilter>
+					<IconTabFilter icon="sap-icon://attachment" design="Vertical" text="My Files" key="files" visible="{system>/fileSupport}">
+						<Toolbar visible="false">
+							<ToolbarSpacer />
+							<u:FileUploader uploadComplete="handleUploadComplete" uploadOnChange="true" sameFilenameAllowed="true"
+								uploadUrl="/s/api/fileservice/files" buttonOnly="true" style="Emphasized" buttonText="Upload File" />
+						</Toolbar>
+						<UploadCollection id="UploadCollection" maximumFileSize="500" multiple="true" change="onChange"
+							beforeUploadStarts="onBeforeUploadStarts" fileSizeExceed="onFileSizeExceed"
+							fileType="jpg,jpeg,gif,ico,bmp,svg,bmp,png,pdf,mp4,zip,pptx" selectionChange="onSelectFile" typeMissmatch="onTypeMissmatch"
+							uploadComplete="handleUploadComplete" sameFilenameAllowed="true" items="{files>/}" mode="SingleSelectMaster"
+							numberOfAttachmentsText=" " noDataText="You do not manage any files so far."
+							noDataDescription="You can upload some to reuse later in a page or template or ask an administrator of an existing file to add you as a co-owner."
+							showSeparators="Inner" uploadEnabled="true" uploadButtonInvisible="false" uploadUrl="/s/api/fileservice/files">
+							<items>
+								<UploadCollectionItem documentId="{files>id}" fileName="{files>name}"
+									thumbnailUrl="/s/api/fileservice/files/{files>id}/content?thumbnail=true" enableEdit="false" enableDelete="false"
+									visibleDelete="false" visibleEdit="false">
+									<attributes>
+										<ObjectAttribute text="{files>fileType}" />
+										<ObjectAttribute text="{path: 'files>size', type: 'sap.primetime.model.FileSize'}" />
+									</attributes>
+									<statuses>
+										<ObjectStatus title="Status" text="Error" state="Error" icon="sap-icon://alert" tooltip="Template not useable yet"
+											visible="{=typeof ${files>errorState} !== 'undefined'}" />
+									</statuses>
+								</UploadCollectionItem>
+							</items>
+						</UploadCollection>
+					</IconTabFilter>
+					<IconTabFilter icon="sap-icon://pending" design="Vertical" text="Onboarding" key="onboardings"
+						visible="{system>/adminMode}" iconColor="Critical">
+						<Table id="onboardingTable" inset="false" items="{onboardings>/}" alternateRowColors="true">
+							<columns>
+								<Column>
+									<Text text="Key" />
+								</Column>
+								<Column minScreenWidth="Tablet">
+									<Text text="Requested Owner" />
+								</Column>
+								<Column>
+									<Text text="Requesting User" />
+								</Column>
+								<Column minScreenWidth="Tablet">
+									<Text text="Creation Date" />
+								</Column>
+							</columns>
+
+							<items>
+								<ColumnListItem vAlign="Middle" type="Navigation" press=".onSelectOnboarding">
+									<cells>
+										<Text text="{onboardings>externalKey}" />
+										<Text
+											text="{=${onboardings>requestedOwner} === ${system>/technicalUser} ? 'PrimeTime Appliance Onboarding' : ${onboardings>requestedOwner}}" />
+										<Text
+											text="{=${onboardings>metric_user} === ${system>/technicalUser} ? 'PrimeTime Appliance Technical User' : ${onboardings>metric_user}}" />
+										<Text text="{path: 'onboardings>dateCreated', type: 'sap.primetime.model.DateTime'}" tooltip="{onboardings>dateCreated}" />
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+					</IconTabFilter>
+					<IconTabFilter icon="sap-icon://settings" design="Vertical" text="Configuration" key="settings"
+						visible="{system>/adminMode}" iconColor="Critical">
+						<l:BlockLayout background="Dashboard">
+							<l:BlockLayoutRow>
+								<l:BlockLayoutCell>
+									<Toolbar style="Clear">
+										<Title titleStyle="H1" text="App" />
+										<ToolbarSpacer />
+										<Button text="Save All" type="Emphasized" press="onSaveAppConfig" />
+									</Toolbar>
+									<l:VerticalLayout content="{settings>/0/parameters/}" width="100%">
+										<HBox>
+											<Label text="{settings>name}:" class="formLabel centeredVertically" />
+											<Input value="{settings>currentValue}" valueLiveUpdate="true" class="formValue" />
+											<tnt:InfoLabel text="{settings>source}" colorScheme="9" displayOnly="true"
+												class="sapUiTinyMarginBegin centeredVertically" />
+											<Button icon="sap-icon://delete" tooltip="Delete value and restore to '{settings>resetValue}' from {settings>resetSource}"
+												type="Reject" visible="{=${settings>source} === 'DB' &amp;&amp; ${settings>currentValue} !== ${settings>resetValue}}"
+												class="sapUiTinyMarginBegin" press="onDeleteAppSetting" />
+											<Button icon="sap-icon://eraser"
+												tooltip="Remove redundant custom value and reset to original definition from {settings>resetSource}" type="Transparent"
+												visible="{=${settings>source} === 'DB' &amp;&amp; ${settings>currentValue} === ${settings>resetValue}}"
+												class="sapUiTinyMarginBegin" press="onDeleteAppSetting" />
+										</HBox>
+									</l:VerticalLayout>
+								</l:BlockLayoutCell>
+								<l:BlockLayoutCell>
+									<Toolbar style="Clear">
+										<Title titleStyle="H1" text="Appliance" />
+										<ToolbarSpacer />
+										<Button text="Save All" type="Emphasized" press="onSaveApplianceConfig" />
+									</Toolbar>
+									<l:VerticalLayout content="{settings>/1/parameters/}" width="100%">
+										<HBox>
+											<Label text="{settings>name}:" class="formLabel centeredVertically" />
+											<Input value="{settings>currentValue}" valueLiveUpdate="true" class="formValue" />
+											<tnt:InfoLabel text="{settings>source}" colorScheme="9" displayOnly="true"
+												class="sapUiTinyMarginBegin centeredVertically" />
+											<Button icon="sap-icon://delete" tooltip="Delete value and restore to '{settings>resetValue}' from {settings>resetSource}"
+												type="Reject" visible="{=${settings>source} === 'DB' &amp;&amp; ${settings>currentValue} !== ${settings>resetValue}}"
+												class="sapUiTinyMarginBegin" press="onDeleteApplianceSetting" />
+											<Button icon="sap-icon://eraser"
+												tooltip="Remove redundant custom value and reset to original definition from {settings>resetSource}" type="Transparent"
+												visible="{=${settings>source} === 'DB' &amp;&amp; ${settings>currentValue} === ${settings>resetValue}}"
+												class="sapUiTinyMarginBegin" press="onDeleteApplianceSetting" />
+										</HBox>
+									</l:VerticalLayout>
+								</l:BlockLayoutCell>
+							</l:BlockLayoutRow>
+						</l:BlockLayout>
+					</IconTabFilter>
+					<IconTabFilter icon="sap-icon://person-placeholder" design="Vertical" text="All Users" key="data_users"
+						visible="{system>/dbAdminMode}" iconColor="Negative">
+						<Table id="data_usersTable" inset="false" items="{data_users>/}" alternateRowColors="true">
+							<columns>
+								<Column width="40px" demandPopin="true" vAlign="Middle" popinDisplay="Inline" />
+								<Column minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline">
+									<Text text="ID" />
+								</Column>
+								<Column minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline">
+									<Text text="Name" />
+								</Column>
+								<Column minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline">
+									<Text text="E-Mail" />
+								</Column>
+							</columns>
+
+							<items>
+								<ColumnListItem vAlign="Middle" type="Navigation" press=".onSelectDBUser" tooltip="{data_users>dateModified}">
+									<cells>
+										<f:Avatar displaySize="XS" src="{data_users>imageLink}" class="sapUiTinyMarginTopBottom" />
+										<Text text="{data_users>userId}" />
+										<Text text="{data_users>fullName}" />
+										<Text text="{data_users>email}" />
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+					</IconTabFilter>
+					<IconTabFilter icon="sap-icon://sys-monitor" design="Vertical" text="All Screens" key="data_screens"
+						visible="{system>/dbAdminMode}" iconColor="Negative">
+						<Toolbar visible="{=${data_screens>/}.length &gt; 0}">
+							<ToolbarSpacer />
+							<Label text="Display" />
+							<SegmentedButton selectedKey="{state>/screenView}">
+								<items>
+									<SegmentedButtonItem icon="sap-icon://table-chart" key="table" tooltip="Show as table" />
+									<SegmentedButtonItem icon="sap-icon://sys-monitor" key="grid" tooltip="Show as screens" />
+								</items>
+							</SegmentedButton>
+						</Toolbar>
+						<Table id="data_screensTable" inset="false" items="{data_screens>/}"
+							visible="{=${state>/screenView} === 'table' || ${data_screens>/}.length === 0}" alternateRowColors="true">
+							<columns>
+								<Column width="24px" vAlign="Middle" popinDisplay="Inline" />
+								<Column>
+									<Text text="Name" />
+								</Column>
+								<Column minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline">
+									<Text text="Assigned Playlist" />
+								</Column>
+								<Column minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline">
+									<Text text="Pages" />
+								</Column>
+								<Column minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline">
+									<Text text="Appliance Version" />
+								</Column>
+							</columns>
+
+							<items>
+								<ColumnListItem vAlign="Middle" type="Navigation" press=".onSelectDBScreen" tooltip="{data_screens>dateModified}">
+									<cells>
+										<core:Icon src="sap-icon://circle-task-2" color="green" class="sapUiTinyMarginEnd"
+											visible="{=${data_screens>aliveState} === 'OK'}" tooltip="Active" />
+										<Text text="{=${data_screens>owners}.length === 0 ? '-Onboarding-' : ${data_screens>name}}" />
+										<Text text="{data_screens>playlist/name}" />
+										<Text text="{=${data_screens>playlist/pageReferences}.length}" />
+										<Text text="{data_screens>metric_applianceVersion}" />
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+						<l:HorizontalLayout allowWrapping="true" content="{data_screens>/}"
+							visible="{=${state>/screenView} === 'grid' &amp;&amp; ${data_screens>/}.length &gt; 0}" class="sapUiContentPadding vboxElementList">
+							<VBox class="sapUiResponsiveMargin">
+								<Image src="/s/api/fileservice/screenkey/{data_screens>externalKey}" decorative="false" width="{system>/xDim}px"
+									height="{system>/yDim}px"
+									visible="{= typeof ${data_screens>externalKey} !== 'undefined' &amp;&amp; typeof ${data_screens>screenshotError} === 'undefined'}"
+									class="screenFrame selectableTile autoScaling" error=".onDBScreenshotError" press=".onSelectDBScreen" />
+								<Image src="/ui/img/white.png" decorative="false" width="{system>/xDim}px" height="{system>/yDim}px"
+									visible="{= typeof ${data_screens>externalKey} === 'undefined' || ${data_screens>screenshotError} === true}"
+									class="screenFrame selectableTile autoScaling" press=".onSelectDBScreen" />
+								<Text
+									text="Playlist: {=${data_screens>playlist} ? ${data_screens>playlist/name} + '\nOverall Runtime: ' + ${path: 'data_screens>playlist/overallDuration', formatter:'.formatSeconds'} : '-none assigned yet-'}"
+									class="onScreenText" />
+								<Toolbar design="Transparent" style="Clear" height="18px" class="maxCoverWidth">
+									<Link width="100%" textAlign="Center" text="{data_screens>name}" href="/#/screen/{data_screens>id}" />
+									<ToolbarSpacer />
+									<ObjectStatus class="sapUiTinyMarginEnd" active="false" state="None" icon="sap-icon://circle-task-2"
+										visible="{=${data_screens>aliveState} === 'INITIAL'}" tooltip="Not activated yet" />
+									<ObjectStatus class="sapUiTinyMarginEnd" active="false" state="Error" icon="sap-icon://alert"
+										visible="{=${data_screens>aliveState} === 'DELAYED'}" tooltip="Inactive" />
+									<ObjectStatus class="sapUiTinyMarginEnd" active="false" state="Success" icon="sap-icon://circle-task-2"
+										tooltip="Active" visible="{=${data_screens>aliveState} === 'OK'}" />
+								</Toolbar>
+							</VBox>
+						</l:HorizontalLayout>
+					</IconTabFilter>
+					<IconTabFilter icon="sap-icon://media-play" design="Vertical" text="All Playlists" key="data_playlists"
+						visible="{system>/dbAdminMode}" iconColor="Negative">
+						<Table id="data_playlistsTable" inset="false" items="{data_playlists>/}" alternateRowColors="true">
+							<columns>
+								<Column>
+									<Text text="Name" />
+								</Column>
+								<Column minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline">
+									<Text text="Pages" />
+								</Column>
+								<Column minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline">
+									<Text text="Public" />
+								</Column>
+							</columns>
+
+							<items>
+								<ColumnListItem vAlign="Middle" type="Navigation" press=".onSelectDBPlaylist" tooltip="{data_playlists>dateModified}">
+									<cells>
+										<Text text="{data_playlists>name}" />
+										<Text text="{=${data_playlists>pageReferences}.length}" />
+										<tnt:InfoLabel text="{data_playlists>listPublicly}" displayOnly="true"
+											colorScheme="{=${data_playlists>listPublicly} ? 8 : 3}" />
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+					</IconTabFilter>
+					<IconTabFilter icon="sap-icon://document" design="Vertical" text="All Pages" key="data_pages"
+						visible="{system>/dbAdminMode}" iconColor="Negative">
+						<Toolbar>
+							<ToolbarSpacer />
+							<Label text="Display" />
+							<SegmentedButton selectedKey="{state>/pageView}">
+								<items>
+									<SegmentedButtonItem icon="sap-icon://table-chart" key="table" tooltip="Show as table" />
+									<SegmentedButtonItem icon="sap-icon://grid" key="grid" tooltip="Show as tiles" />
+								</items>
+							</SegmentedButton>
+						</Toolbar>
+						<Table id="data_pagesTable" inset="false" items="{data_pages>/}" visible="{=${state>/pageView} === 'table'}"
+							alternateRowColors="true">
+							<columns>
+								<Column width="24px" vAlign="Middle" />
+								<Column>
+									<Text text="Name" />
+								</Column>
+								<Column minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline">
+									<Text text="Type" />
+								</Column>
+								<Column minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline">
+									<Text text="Public" />
+								</Column>
+								<Column minScreenWidth="Tablet" demandPopin="false" popinDisplay="Inline">
+									<Text text="Description" />
+								</Column>
+								<Column minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline">
+									<Text text="Owners" />
+								</Column>
+							</columns>
+
+							<items>
+								<ColumnListItem vAlign="Middle" type="Navigation" press=".onSelectDBPage" tooltip="{data_pages>dateModified}">
+									<cells>
+										<core:Icon src="{path:'data_pages>pageType', formatter:'.getPageIcon'}" decorative="true" />
+										<Text text="{data_pages>name}" />
+										<Text text="{data_pages>pageType}" />
+										<tnt:InfoLabel text="{data_pages>listPublicly}" displayOnly="true"
+											colorScheme="{=${data_pages>listPublicly} ? 8 : 3}" />
+										<Text text="{data_pages>description}" />
+										<Text text="{data_pages>ownersDisplayText}" />
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+						<l:HorizontalLayout allowWrapping="true" content="{data_pages>/}" visible="{=${state>/pageView} === 'grid'}"
+							class="sapUiContentPadding">
+							<l:VerticalLayout class="sapUiResponsiveMargin">
+								<Image src="{data_pages>screenshotUrl}" decorative="true" class="screenPage selectableTile autoScaling"
+									width="{system>/xDim}px" height="{system>/yDim}px" tooltip="{data_pages>description}" press=".onSelectDBPage" />
+								<Toolbar design="Transparent" style="Clear" height="18px" class="maxCoverWidth">
+									<Link width="100%" textAlign="Center" text="{data_pages>name}" href="/#/page/{data_pages>id}" />
+								</Toolbar>
+							</l:VerticalLayout>
+						</l:HorizontalLayout>
+					</IconTabFilter>
+					<IconTabFilter icon="sap-icon://attachment" design="Vertical" text="All Files" key="data_files"
+						visible="{= ${system>/dbAdminMode} &amp;&amp; ${system>/fileSupport}}" iconColor="Negative">
+						<Table id="data_filesTable" inset="false" items="{data_files>/}" alternateRowColors="true">
+							<columns>
+								<Column>
+									<Text text="Name" />
+								</Column>
+								<Column minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline">
+									<Text text="Type" />
+								</Column>
+								<Column minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline">
+									<Text text="Size" />
+								</Column>
+							</columns>
+
+							<items>
+								<ColumnListItem vAlign="Middle" type="Navigation" press=".onSelectDBFile" tooltip="{data_files>dateModified}">
+									<cells>
+										<Text text="{data_files>name}" />
+										<Text text="{data_files>fileType}" />
+										<Text text="{path: 'data_files>size', type: 'sap.primetime.model.FileSize'}" />
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+					</IconTabFilter>
+					<IconTabFilter icon="sap-icon://sap-box" design="Vertical" text="ECM Browser" count="{=${data_ecm>/}.length}"
+						key="data_ecm" visible="{= ${system>/dbAdminMode} &amp;&amp; ${system>/adminMode} &amp;&amp; ${system>/fileSupport}}"
+						iconColor="Negative">
+						<Toolbar>
+							<ToolbarSpacer />
+							<Button text="Load Data" type="Emphasized" press="onLoadECMData" />
+							<Button text="Delete Thumbnails" type="Reject" press="onDeleteThumbnails" />
+						</Toolbar>
+						<UploadCollection id="ECMUploadCollection" sameFilenameAllowed="true" items="{data_ecm>/}" mode="Delete"
+							numberOfAttachmentsText=" " noDataText="There were no files stored yet." showSeparators="Inner" uploadEnabled="false"
+							uploadButtonInvisible="true" fileDeleted="onDeleteFileEcm" visible="{=${data_ecm>/}.length &gt; 0}">
+							<items>
+								<UploadCollectionItem documentId="{data_ecm>fileKey}" fileName="{data_ecm>name}" enableEdit="false"
+									enableDelete="true" visibleDelete="true" visibleEdit="false">
+									<attributes>
+										<ObjectAttribute text="{data_ecm>fileType}" />
+										<ObjectAttribute text="{path: 'data_ecm>size', type: 'sap.primetime.model.FileSize'}" />
+									</attributes>
+								</UploadCollectionItem>
+							</items>
+						</UploadCollection>
+					</IconTabFilter>
+				</items>
+			</IconTabBar>
+		</content>
+	</Page>
+</mvc:View>

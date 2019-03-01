@@ -1,0 +1,7 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<SelectDialog noDataText="No supported files found" title="Select File(s)" search="onCatalogSearch"
+		confirm="onFileCatalogClose" cancel="onFileCatalogClose" items="{fileCatalog>/}">
+		<StandardListItem title="{fileCatalog>name}" icon="{fileCatalog>screenshotUrl}" iconDensityAware="false"
+			iconInset="false" type="Active" description="{fileCatalog>fileType}" />
+	</SelectDialog>
+</core:FragmentDefinition>

@@ -1,0 +1,28 @@
+<html>
+<head>
+<title>PrimeTime - HTML</title>
+</head>
+<body style="margin: 0px; padding: 0px">
+
+	<script>
+		function getUrlParameter(name) {
+			name = name.replace(/[\[\]]/g, '\\$&');
+			var url = window.location.href;
+			var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'), results = regex
+					.exec(url);
+			if (!results)
+				return null;
+			if (!results[2])
+				return '';
+
+			return decodeURIComponent(results[2].replace(/\+/g, ' '));
+		}
+
+		var text = getUrlParameter("text");
+		if (text != null) {
+			document.write(text);
+		}
+	</script>
+
+</body>
+</html>

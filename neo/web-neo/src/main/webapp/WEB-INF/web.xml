@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:web="http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee">
+
+	<servlet>
+		<servlet-name>OpenApi</servlet-name>
+		<servlet-class>io.swagger.v3.jaxrs2.integration.OpenApiServlet</servlet-class>
+
+		<init-param>
+			<param-name>openApi.configuration.resourcePackages</param-name>
+			<param-value>io.swagger.sample.resource</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>OpenApi</servlet-name>
+		<url-pattern>/openapi/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>CXFServlet</servlet-name>
+		<display-name>CXF Servlet</display-name>
+		<servlet-class>
+			org.apache.cxf.jaxrs.servlet.CXFNonSpringJaxrsServlet
+		</servlet-class>
+		<init-param>
+			<param-name>javax.ws.rs.Application</param-name>
+			<param-value>com.sap.primetime.api.ServiceRegistry</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CXFServlet</servlet-name>
+		<url-pattern>/s/api/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>CXFServletBASIC</servlet-name>
+		<display-name>CXF Servlet BASIC</display-name>
+		<servlet-class>
+			org.apache.cxf.jaxrs.servlet.CXFNonSpringJaxrsServlet
+		</servlet-class>
+		<init-param>
+			<param-name>javax.ws.rs.Application</param-name>
+			<param-value>com.sap.primetime.api.ServiceRegistry</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CXFServletBASIC</servlet-name>
+		<url-pattern>/b/api/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>CXFServletCERT</servlet-name>
+		<display-name>CXF Servlet CERT</display-name>
+		<servlet-class>
+			org.apache.cxf.jaxrs.servlet.CXFNonSpringJaxrsServlet
+		</servlet-class>
+		<init-param>
+			<param-name>javax.ws.rs.Application</param-name>
+			<param-value>com.sap.primetime.api.ServiceRegistry</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CXFServletCERT</servlet-name>
+		<url-pattern>/c/api/*</url-pattern>
+	</servlet-mapping>
+
+	<!-- ============================================================== -->
+	<!-- Liquibase Setup -->
+	<!-- ============================================================== -->
+	<context-param>
+		<param-name>liquibase.changelog</param-name>
+		<param-value>db/db.changelog.xml</param-value>
+	</context-param>
+	<context-param>
+		<param-name>liquibase.datasource</param-name>
+		<param-value>java:comp/env/jdbc/DefaultDB</param-value>
+	</context-param>
+	<context-param>
+		<param-name>liquibase.onerror.fail</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<context-param>
+		<param-name>liquibase.contexts</param-name>
+		<param-value>production</param-value>
+	</context-param>
+	<listener>
+		<listener-class>liquibase.integration.servlet.LiquibaseServletListener </listener-class>
+	</listener>
+	<listener>
+		<listener-class>com.sap.primetime.startup.NeoGuiceInitializer</listener-class>
+	</listener>
+	<listener>
+		<listener-class>com.sap.primetime.startup.AppInitializer</listener-class>
+	</listener>
+
+	<filter>
+		<display-name>APILoginFilter</display-name>
+		<filter-name>APILoginFilter</filter-name>
+		<filter-class>com.sap.primetime.startup.BASICAuthFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>APILoginFilter</filter-name>
+		<url-pattern>/b/*</url-pattern>
+	</filter-mapping>
+	<filter>
+		<display-name>APICERTLoginFilter</display-name>
+		<filter-name>APICERTLoginFilter</filter-name>
+		<filter-class>com.sap.primetime.startup.CERTAuthFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>APICERTLoginFilter</filter-name>
+		<url-pattern>/c/*</url-pattern>
+	</filter-mapping>
+	<filter>
+		<display-name>UserLoginFilter</display-name>
+		<filter-name>UserLoginFilter</filter-name>
+		<filter-class>com.sap.primetime.startup.SAMLAuthFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>UserLoginFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<error-page>
+		<error-code>404</error-code>
+		<location>/error_404.html</location>
+	</error-page>
+	<error-page>
+		<exception-type>java.lang.Throwable</exception-type>
+		<location>/error_unspecific.html</location>
+	</error-page>
+
+	<resource-ref>
+		<res-ref-name>jdbc/DefaultDB</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+	</resource-ref>
+	<resource-ref>
+		<res-ref-name>EcmService</res-ref-name>
+		<res-type>com.sap.ecm.api.EcmService</res-type>
+	</resource-ref>
+	<resource-ref>
+		<res-ref-name>TenantContext</res-ref-name>
+		<res-type>com.sap.cloud.account.TenantContext</res-type>
+	</resource-ref>
+	<resource-ref>
+		<res-ref-name>connectivityConfiguration</res-ref-name>
+		<res-type>com.sap.core.connectivity.api.configuration.ConnectivityConfiguration</res-type>
+	</resource-ref>
+
+	<security-role>
+		<description>All SAP Cloud Users</description>
+		<role-name>Everyone</role-name>
+	</security-role>
+	<security-role>
+		<description>App Administrator</description>
+		<role-name>admin</role-name>
+	</security-role>
+	<security-role>
+		<description>DB Administrator</description>
+		<role-name>dbadmin</role-name>
+	</security-role>
+</web-app>

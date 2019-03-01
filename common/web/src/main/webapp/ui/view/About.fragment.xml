@@ -1,0 +1,23 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:form="sap.ui.layout.form"
+	xmlns:l="sap.ui.layout">
+	<ResponsivePopover title="About" class="sapUiPopupWithPadding" placement="Bottom" contentWidth="400px">
+		<content>
+			<Text
+				text="An SAP open source project to conveniently manage content on wall TVs. Feel free to use it or even to contribute. Feedback and suggestions are always welcome." />
+
+			<form:SimpleForm editable="false" layout="ResponsiveGridLayout">
+				<Label text="Get Started" />
+				<Link text="Documentation" href="{system>/gettingStartedUrl}" target="_blank"
+					visible="{=typeof ${system>/gettingStartedUrl} !== 'undefined'}" />
+
+				<Label text="Get Involved" />
+				<Link text="Development" href="{system>/developmentUrl}" target="_blank"
+					visible="{=typeof ${system>/developmentUrl} !== 'undefined'}" />
+
+				<Label text="Administrators" />
+				<Text text="{system>/administrators}"
+					visible="{=typeof ${system>/administrators} !== 'undefined' &amp;&amp; ${system>/administrators}.length &gt; 0}" />
+			</form:SimpleForm>
+		</content>
+	</ResponsivePopover>
+</core:FragmentDefinition>

@@ -1,0 +1,66 @@
+<mvc:View controllerName="sap.primetime.ui.controller.UserDetails" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
+	xmlns:form="sap.ui.layout.form" xmlns:f="sap.f" xmlns:l="sap.ui.layout">
+	<Page title="User Details" showNavButton="true" navButtonPress="navHome">
+		<headerContent>
+			<Button icon="sap-icon://my-view" type="Transparent" press="onImpersonateUser" tooltip="Impersonate User"
+				visible="{system>/adminMode}" />
+			<Button icon="sap-icon://delete" type="Transparent" press="onDeleteUser" tooltip="Delete" visible="{system>/dbAdminMode}" />
+		</headerContent>
+		<content>
+			<MessageStrip text="You either have no access to this entity or there is no entity with this Id."
+				visible="{=typeof ${user>/id} === 'undefined'}" type="Error" showIcon="true" class="sapUiSmallMargin" />
+			<l:BlockLayout background="Dashboard" visible="{=typeof ${user>/id} !== 'undefined'}">
+				<l:BlockLayoutRow>
+					<l:BlockLayoutCell>
+						<Toolbar style="Clear">
+							<Title titleStyle="H1" text="Info" />
+						</Toolbar>
+						<l:HorizontalLayout>
+							<form:SimpleForm editable="false" layout="ResponsiveGridLayout">
+								<Label text="Name" />
+								<Text text="{user>/displayName}" />
+
+								<Label text="Id" />
+								<Link text="{user>/userId}" href="{user>/profileLink}" target="_blank" visible="{=typeof ${user>/profileLink} !== 'undefined'}" />
+
+								<Label text="Id" />
+								<Text text="{user>/userId}" visible="{=typeof ${user>/profileLink} === 'undefined'}" />
+
+								<Label text="E-Mail" />
+								<Text text="{user>/email}" />
+							</form:SimpleForm>
+							<f:Avatar displaySize="L" src="{user>/imageLink}" />
+						</l:HorizontalLayout>
+					</l:BlockLayoutCell>
+					<l:BlockLayoutCell>
+						<Toolbar style="Clear">
+							<Title titleStyle="H1" text="User Objects" />
+						</Toolbar>
+						<Title text="Pages" visible="{=${pages>/}.length &gt; 0}" />
+						<HeaderContainer content="{pages>/}" visible="{=${pages>/}.length &gt; 0}">
+							<Link text="{pages>name}" href="#/page/{pages>id}" class="sapUiTinyMarginEnd" />
+						</HeaderContainer>
+
+						<Title text="Files" visible="{=${files>/}.length &gt; 0}" class="sapUiSmallMarginTop" />
+						<HeaderContainer content="{files>/}" visible="{=${files>/}.length &gt; 0}">
+							<Link text="{files>name}" href="#/file/{files>id}" class="sapUiTinyMarginEnd" />
+						</HeaderContainer>
+
+						<Title text="Playlists" visible="{=${playlists>/}.length &gt; 0}" class="sapUiSmallMarginTop" />
+						<HeaderContainer content="{playlists>/}" visible="{=${playlists>/}.length &gt; 0}">
+							<Link text="{playlists>name}" href="#/playlist/{playlists>id}" class="sapUiTinyMarginEnd" />
+						</HeaderContainer>
+
+						<Title text="Screens" visible="{=${screens>/}.length &gt; 0}" class="sapUiSmallMarginTop" />
+						<HeaderContainer content="{screens>/}" visible="{=${screens>/}.length &gt; 0}">
+							<Link text="{screens>name}" href="#/screen/{screens>id}" class="sapUiTinyMarginEnd" />
+						</HeaderContainer>
+
+						<MessageStrip text="No managed objects yet." class="sapUiTinyMarginTop" showIcon="true"
+							visible="{=${pages>/}.length === 0 &amp;&amp; ${files>/}.length === 0 &amp;&amp; ${playlists>/}.length === 0 &amp;&amp; ${screens>/}.length === 0}" />
+					</l:BlockLayoutCell>
+				</l:BlockLayoutRow>
+			</l:BlockLayout>
+		</content>
+	</Page>
+</mvc:View>

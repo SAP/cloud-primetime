@@ -1,0 +1,17 @@
+<mvc:View xmlns:c="sap.ui.core" controllerName="sap.primetime.ui.controller.Companion" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
+	xmlns:f="sap.f" xmlns:l="sap.ui.layout">
+	<Page title="Mobile Companion for Screen: {screen>/name}" showNavButton="true" navButtonPress="navHome">
+		<content>
+			<l:VerticalLayout width="100%" class="sapUiContentPadding centered">
+				<MessageStrip
+					text="This app allows you to temporarily take over the screen or to open the content on your mobile/desktop for further inspection and drilldown."
+					showIcon="true" />
+
+				<Button text="Control what is shown on the screen" type="Emphasized" press="navRemote" />
+				<Button text="Start the playlist right here" type="Emphasized" press="openPlaylist" />
+				<Button text="Assign a different playlist" visible="{system>/adminMode}" type="Emphasized" press="navScreen" />
+				<Link text="Contact Screen Owner" href="mailto:{screen>/owners/0/user/email}?subject=Question regarding screen '{screen>/name}'" />
+			</l:VerticalLayout>
+		</content>
+	</Page>
+</mvc:View>

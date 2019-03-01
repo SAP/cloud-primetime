@@ -1,0 +1,71 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:tnt="sap.tnt" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout"
+	xmlns:form="sap.ui.layout.form">
+	<VBox>
+		<MessageStrip text="Page is public but does not provide a cover image. This will lead to bad user experience." type="Warning"
+			showIcon="true" class="sapUiSmallMarginBottom"
+			visible="{=${page>/listPublicly} &amp;&amp; ${page>/screenshotUrl}.indexOf('missing') &gt; 0 &amp;&amp; ${system>/fileSupport} &amp;&amp; ${page>/isOwner}}" />
+		<form:SimpleForm editable="false" layout="ResponsiveGridLayout">
+			<Label text="Name" />
+			<Text text="{= typeof ${page>/title} !== 'undefined' ? ${page>/title} + ' (' + ${page>/name} + ')' : ${page>/name}}" />
+
+			<Label text="Description" />
+			<Text text="{page>/description}" visible="{= typeof ${page>/description} !== 'undefined'}" />
+
+			<Label text="Type" />
+			<Text text="{page>/pageType}" />
+
+			<Label text="URL" />
+			<Link text="{page>/url}" href="{page>/url}" target="_blank"
+				visible="{= ${page>/pageType} === 'URL' &amp;&amp; typeof ${page>/url} !== 'undefined' }" />
+
+			<Label text="Grid" />
+			<Text text="{page>/gridX} x {page>/gridY}{=${page>/gridRatio} &gt; 0 ? ' (first element ' + ${page>/gridRatio} + '%)': ''}"
+				visible="{= ${page>/pageType} === 'URLGRID'}" />
+
+			<Label text="File" />
+			<Link text="{page>/file/name}" href="#/file/{page>/file/id}"
+				visible="{= (${page>/pageType} === 'PDF' || ${page>/pageType} === 'IMAGE' || ${page>/pageType} === 'MOVIE') &amp;&amp; ${page>/file/id} &gt; 0}" />
+
+			<Label text="Template" />
+			<Link text="{page>/template/name}" href="#/template/{page>/template/id}"
+				visible="{= ${page>/pageType} === 'TEMPLATE' &amp;&amp; ${page>/template/id} &gt; 0}" />
+
+			<Label text="Page" />
+			<Text text="{page>/page}" visible="{= ${page>/pageType} === 'PDF'}" />
+
+			<Label text="Text" />
+			<Text text="{page>/text}" visible="{= ${page>/pageType} === 'TEXT'}" />
+
+			<Label text="Embed Code" />
+			<Link text="{page>/text}" href="https://www.youtube.com/watch?v={=${page>/pageType} === 'YOUTUBE' ? ${page>/text} : ''}"
+				target="_blank" visible="{= ${page>/pageType} === 'YOUTUBE'}" />
+
+			<Label text="Embed Code" />
+			<Link text="{page>/text} ({=${page>/mediasharePrivate} ? 'private' : 'public'})"
+				href="https://video.sap.com/media/t/{=${page>/pageType} === 'YOUTUBE' ? ${page>/text} : ''}" target="_blank"
+				visible="{= ${page>/pageType} === 'MEDIASHARE'}" />
+
+			<Label text="Public" />
+			<tnt:InfoLabel text="{page>/listPublicly}" displayOnly="true" colorScheme="{=${page>/listPublicly} ? 8 : 3}" />
+
+			<Label text="Auto-Reload" />
+			<tnt:InfoLabel text="{=${page>/reloadInterval} &gt; 0 ? ${page>/reloadInterval} + 's' : 'no'}" displayOnly="true"
+				colorScheme="{=${page>/reloadInterval} &gt; 0 ? 8 : 3}" visible="{= ${page>/pageType} === 'URL' || ${page>/pageType} === 'URLGRID'}" />
+
+			<Label text="Cover Image" />
+			<Image id="pageScreenshot" src="{page>/screenshotUrl}" decorative="true" class="screenPage autoScaling" width="{system>/xDim}px"
+				tooltip="{= ${page>/isOwner} ? 'Image used for page catalog' : ''}" />
+
+			<Label text="Automatic Cover" />
+			<MessageStrip text="This is an automatically generated cover image that will be updated regularly." type="Success"
+				showIcon="true" class="sapUiSmallMarginBottom"
+				visible="{=typeof ${page>/screenshot} === 'undefined' &amp;&amp; typeof ${page>/autoScreenshot} !== 'undefined' &amp;&amp; ${page>/isOwner}}" />
+
+			<Label text="Automatic Cover" />
+			<MessageStrip text="If no custom cover image is uploaded, there will be one automatically created in regular intervals."
+				type="Success" showIcon="true" class="sapUiSmallMarginBottom"
+				visible="{=typeof ${page>/screenshot} === 'undefined' &amp;&amp; typeof ${page>/autoScreenshot} === 'undefined' &amp;&amp; ${system>/autoScreenshotInstances} &gt; 0 &amp;&amp; ${page>/pageType} !== 'PDF' &amp;&amp; ${page>/pageType} !== 'IMAGE' &amp;&amp; ${page>/isOwner}}" />
+
+		</form:SimpleForm>
+	</VBox>
+</core:FragmentDefinition>

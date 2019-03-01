@@ -1,0 +1,47 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:form="sap.ui.layout.form"
+	xmlns:l="sap.ui.layout">
+	<l:VerticalLayout width="100%">
+		<form:SimpleForm editable="true" layout="ResponsiveGridLayout">
+			<Label text="Name" required="true" />
+			<Input value="{screen>/name}" maxLength="80" valueLiveUpdate="true" description="e.g. building3-g3-1" />
+
+			<Label text="Playlist" required="true" />
+			<l:HorizontalLayout>
+				<Select forceSelection="false" selectedKey="{screen>/playlist/id}" items="{playlists>/}" showSecondaryValues="true">
+					<core:ListItem key="{playlists>id}" text="{playlists>name}" additionalText="{=${playlists>pageReferences}.length} pages" />
+				</Select>
+				<Button text="New" press="onCreatePlaylist" class="sapUiTinyMarginBegin" />
+			</l:HorizontalLayout>
+
+			<Label text="Show Header" />
+			<Switch state="{screen>/showHeader}" />
+
+			<Label text="Show Footer" />
+			<Switch state="{screen>/showFooter}" />
+
+			<Label text="Show Owners" />
+			<Switch state="{screen>/showOwners}" visible="{=${screen>/showFooter}}" />
+		</form:SimpleForm>
+
+		<Button text="More Settings" type="Transparent" press="onShowScreenSettings" />
+
+		<form:SimpleForm id="extendedScreenSettings" editable="true" layout="ResponsiveGridLayout" visible="false">
+			<Label text="Transition" />
+			<RadioButtonGroup selectedIndex="{screen>/transitionIdx}" columns="2">
+				<buttons>
+					<RadioButton text="Instant" />
+					<RadioButton text="Slide" />
+				</buttons>
+			</RadioButtonGroup>
+
+			<Label text="Low-Memory Mode" />
+			<Switch state="{screen>/lowMemoryMode}"
+				tooltip="If active will only load three pages at a time instead of all up-front. Will result in more network traffic." />
+
+			<Label text="Screenshot Device" />
+			<Switch state="{screen>/screenshotMode}"
+				visible="{= typeof ${screen>/externalKey} !== 'undefined' &amp;&amp; ${system>/adminMode}}"
+				tooltip="If active, the connected Apple TV will be used to take screenshots of pages throughout the whole PrimeTime system in case they are missing or outdated. The selected playlist will be ignored." />
+		</form:SimpleForm>
+	</l:VerticalLayout>
+</core:FragmentDefinition>

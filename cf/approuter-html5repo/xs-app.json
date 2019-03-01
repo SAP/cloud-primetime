@@ -1,0 +1,11 @@
+{
+	"routes": [
+		{
+			"source": "^/",
+			"target": "/",
+			"service": "html5-apps-rt",
+			"authenticationType": "xsuaa",
+			"csrfProtection": false
+		}
+	]
+}

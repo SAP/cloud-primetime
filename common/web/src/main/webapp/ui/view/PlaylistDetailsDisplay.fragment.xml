@@ -1,0 +1,16 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:tnt="sap.tnt" xmlns:core="sap.ui.core" xmlns:form="sap.ui.layout.form">
+	<VBox>
+		<MessageStrip text="Playlist is public but does not contain any pages. This will lead to bad user experience." type="Warning"
+			showIcon="true" class="sapUiSmallMarginBottom" visible="{=${playlist>/listPublicly} &amp;&amp; ${playlist>/pageReferences}.length === 0}" />
+		<form:SimpleForm editable="false" layout="ResponsiveGridLayout">
+			<Label text="Name" />
+			<Text text="{playlist>/name}" />
+
+			<Label text="Page Duration" />
+			<Text text="{path: 'playlist>/pageDisplayDuration', formatter:'.formatSeconds'}" />
+
+			<Label text="Public" />
+			<tnt:InfoLabel text="{playlist>/listPublicly}" displayOnly="true" colorScheme="{=${playlist>/listPublicly} ? 8 : 3}" />
+		</form:SimpleForm>
+	</VBox>
+</core:FragmentDefinition>

@@ -1,0 +1,48 @@
+<html>
+<head>
+<title>PrimeTime - Movie</title>
+</head>
+
+<body style="margin: 0px; padding: 0px;">
+	<script>
+		function getUrlParameter(name) {
+			name = name.replace(/[\[\]]/g, '\\$&');
+			var url = window.location.href;
+			var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'), results = regex
+					.exec(url);
+			if (!results)
+				return null;
+			if (!results[2])
+				return '';
+
+			return decodeURIComponent(results[2].replace(/\+/g, ' '));
+		}
+
+		var file = getUrlParameter("file");
+
+		if (file == "-1") {
+			fileName = "/ui/img/teaser.mp4";
+		} else {
+			fileName = "/s/api/fileservice/files/" + file + "/content";
+		}
+
+		document
+				.write("<video id=\"video\" width=\"100%\" height=\"100%\" style=\"object-fit:cover\" autoplay playsinline webkit-playsinline muted loop>");
+		document
+				.write("<source src=\"" + fileName + "\" type=\"video/mp4\" />");
+		document.write("</video>");
+		document.getElementById("video").play();
+	</script>
+</body>
+
+<script>
+	window.addEventListener("message", receiveMessage, false);
+
+	function receiveMessage(event) {
+		if (event.data == "become_active") {
+			document.getElementById("video").currentTime = 0;
+			document.getElementById("video").play();
+		}
+	}
+</script>
+</html>

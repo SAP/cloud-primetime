@@ -1,0 +1,12 @@
+{
+	"name": "PrimeTimeHTML5Deployer",
+	"engines": {
+		"node": ">=6.0.0"
+	},
+	"dependencies": {
+		"@sap/html5-app-deployer": "2.0.1"
+	},
+	"scripts": {
+		"start": "node node_modules/@sap/html5-app-deployer/index.js"
+	}
+}

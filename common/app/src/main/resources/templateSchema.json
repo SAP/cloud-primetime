@@ -1,0 +1,74 @@
+{
+	"$id": "https://primetime.sap.com/template.schema.json",
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title": "PrimeTime Template",
+	"required": [
+		"name",
+		"description",
+		"version",
+		"screenshot"
+	],
+	"type": "object",
+	"properties": {
+		"name": {
+			"type": "string",
+			"description": "Template name.",
+			"$ref": "#/definitions/nonEmptyString"
+		},
+		"description": {
+			"type": "string",
+			"description": "Description of the template."
+		},
+		"version": {
+			"type": "string",
+			"description": "Version of the template, e.g. 1.0.",
+			"$ref": "#/definitions/nonEmptyString"
+		},
+		"screenshot": {
+			"type": "string",
+			"description": "Name of an image file inside the archive acting as a cover image for the template, e.g. cover.png.",
+			"$ref": "#/definitions/nonEmptyString"
+		},
+		"parameters": {
+			"type": "array",
+			"description": "Parameters that the user can supply.",
+			"items": {
+				"$ref": "#/definitions/parameter"
+			}
+		}
+	},
+	"definitions": {
+		"nonEmptyString": {
+			"type": "string",
+			"minLength": 1
+		},
+		"parameter": {
+			"type": "object",
+			"required": [
+				"type",
+				"key",
+				"name"
+			],
+			"properties": {
+				"type": {
+					"type": "string",
+					"description": "Type of the parameter.",
+					"enum": [
+						"text",
+						"file"
+					]
+				},
+				"key": {
+					"type": "string",
+					"description": "Technical key for the parameter.",
+					"$ref": "#/definitions/nonEmptyString"
+				},
+				"name": {
+					"type": "string",
+					"description": "Name of the parameter shown in the UI.",
+					"$ref": "#/definitions/nonEmptyString"
+				}
+			}
+		}
+	}
+}

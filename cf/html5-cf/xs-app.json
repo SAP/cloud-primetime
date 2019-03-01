@@ -1,0 +1,15 @@
+{
+	"routes": [
+		{
+			"source": "^/b/api",
+			"destination": "primetime-server",
+			"authenticationType": "xsuaa"
+		},
+		{
+			"source": "^/",
+			"target": "app",
+			"service": "html5-apps-repo-rt",
+			"authenticationType": "xsuaa"
+		}
+	]
+}

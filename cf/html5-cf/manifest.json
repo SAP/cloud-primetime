@@ -1,0 +1,10 @@
+{
+	"_version": "1.7.0",
+	"sap.app": {
+		"id": "primetime",
+		"type": "application",
+		"applicationVersion": {
+			"version": "0.0.1"
+		}
+	}
+}

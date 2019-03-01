@@ -1,0 +1,12 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:form="sap.ui.layout.form">
+	<form:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanS="6">
+		<Label text="Name" required="true" />
+		<Input value="{playlist>/name}" maxLength="80" valueLiveUpdate="true" />
+
+		<Label text="Page Duration" required="true" />
+		<Input value="{playlist>/pageDisplayDuration}" type="Number" maxLength="6" valueLiveUpdate="true" description="seconds" />
+
+		<Label text="Public" />
+		<Switch state="{playlist>/listPublicly}" />
+	</form:SimpleForm>
+</core:FragmentDefinition>

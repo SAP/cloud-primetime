@@ -1,0 +1,10 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<Dialog title="Page Usage" draggable="true" contentWidth="500px">
+		<Panel headerText="Your Playlists" content="{ref>/userPlaylists}" visible="{=${ref>/userPlaylists}.length &gt; 0}">
+			<Link text="{ref>name}" href="#/playlist/{ref>id}" class="sapUiTinyMarginEnd" />
+		</Panel>
+		<beginButton>
+			<Button text="Close" press="onCloseUsageDetails" />
+		</beginButton>
+	</Dialog>
+</core:FragmentDefinition>

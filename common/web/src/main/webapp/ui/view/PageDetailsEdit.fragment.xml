@@ -1,0 +1,93 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:form="sap.ui.layout.form"
+	xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout">
+	<l:VerticalLayout width="100%">
+		<form:SimpleForm editable="true" layout="ResponsiveGridLayout">
+			<Label text="Name" required="true" />
+			<Input value="{page>/name}" maxLength="80" valueLiveUpdate="true" />
+
+			<Label text="Page Type" required="true" />
+			<Select selectedKey="{page>/pageType}" forceSelection="false" showSecondaryValues="true" change="onTypeChanged">
+				<core:ListItem key="URL" text="URL" additionalText="Show contents of a URL" />
+				<core:ListItem key="URLGRID" text="URL Grid" additionalText="Show contents of multiple URLs" />
+				<core:ListItem key="TEXT" text="Text" additionalText="Show formatted text" />
+				<core:ListItem key="HTML" text="HTML" additionalText="Enter HTML markup" />
+				<core:ListItem key="YOUTUBE" text="YouTube" additionalText="Embed a video from YouTube" />
+				<core:ListItem key="MEDIASHARE" text="SAP Media Share" additionalText="Embed a video from SAP Media Share" />
+				<core:ListItem key="MOVIE" text="Movie" enabled="{system>/fileSupport}" additionalText="Play an uploaded movie" />
+				<core:ListItem key="IMAGE" text="Image" enabled="{system>/fileSupport}" additionalText="Show an uploaded image" />
+				<core:ListItem key="PDF" text="PDF" enabled="{system>/fileSupport}" additionalText="Show a page from a PDF" />
+				<core:ListItem key="TEMPLATE" text="Template" enabled="{system>/fileSupport}" additionalText="Use a template" />
+			</Select>
+
+			<Label text="Hint" required="false" />
+			<MessageStrip text="Enter multiple URLs separated by semi-colon." visible="{=${page>/pageType} === 'URLGRID'}" />
+
+			<Label text="URL" required="true" />
+			<Input value="{page>/url}" type="Url" valueLiveUpdate="true"
+				visible="{=${page>/pageType} === 'URL' || ${page>/pageType} === 'URLGRID'}" />
+
+			<Label text="Grid Horizontally" required="true" />
+			<Input value="{page>/gridX}" type="Number" maxLength="2" valueLiveUpdate="true" visible="{= ${page>/pageType} === 'URLGRID'}" />
+
+			<Label text="Grid Vertically" required="true" />
+			<Input value="{page>/gridY}" type="Number" maxLength="2" valueLiveUpdate="true" visible="{= ${page>/pageType} === 'URLGRID'}" />
+
+			<Label text="Hero Element Size" required="false" />
+			<Input value="{page>/gridRatio}" type="Number" maxLength="2" description="space for first element in %, 0 for even"
+				valueLiveUpdate="true" visible="{= ${page>/pageType} === 'URLGRID'}" />
+
+			<Label text="Auto-Reload" required="false" />
+			<Input value="{page>/reloadInterval}" type="Number" valueLiveUpdate="true"
+				visible="{=${page>/pageType} === 'URL' || ${page>/pageType} === 'URLGRID'}"
+				description="seconds after which the page should be reloaded" />
+
+			<Label text="File" required="true" />
+			<l:HorizontalLayout
+				visible="{= ${page>/pageType} === 'PDF' || ${page>/pageType} === 'IMAGE' || ${page>/pageType} === 'MOVIE' || ${page>/pageType} === 'TEMPLATE'}">
+				<Select id="filesList" forceSelection="false" selectedKey="{page>/file/id}" items="{path:'files>/', templateShareable:false}"
+					change="onFileChanged">
+					<core:Item key="{files>id}" text="{files>name}" />
+				</Select>
+
+				<u:FileUploader uploadComplete=".refreshFiles" uploadOnChange="true" sameFilenameAllowed="true"
+					uploadUrl="/s/api/fileservice/files" buttonOnly="true" buttonText="Upload File" class="sapUiTinyMarginBegin" />
+			</l:HorizontalLayout>
+
+			<Label text="Page" required="true" />
+			<Select selectedKey="{page>/page}" forceSelection="false" items="{pageList>/}"
+				visible="{= ${page>/pageType} === 'PDF' &amp;&amp; ${pageList>/}.length &gt; 0}">
+				<core:Item key="{pageList>key}" text="{pageList>value}" />
+			</Select>
+
+			<Label text="Text" required="true" />
+			<TextArea value="{page>/text}" growing="true" growingMaxLines="9"
+				visible="{= ${page>/pageType} === 'TEXT' || ${page>/pageType} === 'HTML'}" valueLiveUpdate="true" />
+
+			<Label text="Embed Code" required="true" />
+			<Input value="{page>/text}" visible="{= ${page>/pageType} === 'YOUTUBE' || ${page>/pageType} === 'MEDIASHARE'}"
+				valueLiveUpdate="true" description="ID shown in URL" />
+
+			<Label text="Video is not public" />
+			<Switch state="{page>/mediasharePrivate}" visible="{= ${page>/pageType} === 'MEDIASHARE'}"
+				tooltip="PrimeTime can show private videos but they will only loop and not start exactly when the page becomes visible." />
+		</form:SimpleForm>
+
+		<Button text="More Settings" type="Transparent" press="onShowPageDetails" />
+
+		<form:SimpleForm id="extendedPageDetails" editable="true" layout="ResponsiveGridLayout" visible="false">
+			<Label text="Title" required="false" />
+			<Input value="{page>/title}" maxLength="80" description="if empty, name will be used" valueLiveUpdate="true" />
+
+			<Label text="Description" required="false" />
+			<Input value="{page>/description}" maxLength="255" valueLiveUpdate="true" />
+
+			<Label text="Attention" required="false" />
+			<MessageStrip
+				text="Setting a page public means that all other users can see it in the page catalog. Only do this if this is contents applicable to all users and take care to provide a cover image illustrating what the expected content of the page will be!"
+				type="Warning" showIcon="true" />
+
+			<Label text="Public" />
+			<Switch state="{page>/listPublicly}" />
+		</form:SimpleForm>
+	</l:VerticalLayout>
+</core:FragmentDefinition>

@@ -1,0 +1,9 @@
+#pdf {
+	text-align: center;
+}
+
+#pdf canvas {
+	-webkit-box-shadow: 0px 0px 7px 1px rgba(0, 0, 0, 0.6);
+	-moz-box-shadow: 0px 0px 7px 1px rgba(0, 0, 0, 0.6);
+	box-shadow: 0px 0px 7px 1px rgba(0, 0, 0, 0.6);
+}

@@ -1,0 +1,11 @@
+{
+    "name": "approuter-html5repo",
+    "version": "0.0.1",
+    "dependencies": {
+        "@sap/approuter": "2.6.1",
+        "npm": "^6.0.0"
+    },
+    "scripts": {
+        "start": "node node_modules/@sap/approuter/approuter.js"
+    }
+}

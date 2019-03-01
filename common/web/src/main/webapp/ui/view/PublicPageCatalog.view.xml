@@ -1,0 +1,27 @@
+<mvc:View controllerName="sap.primetime.ui.controller.PublicPageCatalog" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:f="sap.f"
+	xmlns:tnt="sap.tnt" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<Page title="Public Page Catalog" showNavButton="true" navButtonPress="navHome">
+		<content>
+			<l:BlockLayout background="Dashboard">
+				<l:BlockLayoutRow>
+					<l:BlockLayoutCell>
+						<Toolbar style="Clear">
+							<Title titleStyle="H1" text="Public Pages" />
+						</Toolbar>
+						<l:HorizontalLayout allowWrapping="true" content="{adpages>/}" class="sapUiContentPadding">
+							<l:VerticalLayout class="sapUiResponsiveMargin">
+								<Image src="{adpages>screenshotUrl}" decorative="true" class="screenPage selectableTile autoScaling" width="{system>/xDim}px"
+									height="{system>/yDim}px" tooltip="{adpages>description}" press=".onSelectAdPage" />
+								<Toolbar design="Transparent" style="Clear" height="18px" class="maxCoverWidth">
+									<Link width="100%" textAlign="Center" text="{= typeof ${adpages>title} !== 'undefined' ? ${adpages>title} : ${adpages>name}}"
+										href="/#/page/{adpages>id}" tooltip="{adpages>name}" />
+								</Toolbar>
+							</l:VerticalLayout>
+						</l:HorizontalLayout>
+					</l:BlockLayoutCell>
+				</l:BlockLayoutRow>
+			</l:BlockLayout>
+		</content>
+	</Page>
+</mvc:View>

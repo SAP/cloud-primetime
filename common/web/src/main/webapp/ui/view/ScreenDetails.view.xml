@@ -1,0 +1,137 @@
+<mvc:View controllerName="sap.primetime.ui.controller.ScreenDetails" xmlns:mvc="sap.ui.core.mvc" xmlns:tnt="sap.tnt" xmlns="sap.m"
+	xmlns:form="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:l="sap.ui.layout" xmlns:suite="sap.suite.ui.microchart">
+	<Page title="Screen Details" showNavButton="true" navButtonPress="navHome">
+		<headerContent>
+			<Button icon="sap-icon://role" type="Transparent" press="onManageOwners" tooltip="Manage Owners"
+				visible="{=${screen>/owners}.length &gt; 0}" />
+			<Button icon="sap-icon://copy" type="Transparent" press="handleCopyPress" tooltip="Copy" />
+			<Button icon="sap-icon://delete" type="Transparent" press="onDeleteObject" tooltip="Delete" />
+			<Button icon="sap-icon://action" type="Transparent" press="onTestScreen" tooltip="Preview"
+				visible="{=${screen>/owners}.length &gt; 0}" />
+		</headerContent>
+		<content>
+			<MessageStrip text="You either have no access to this entity or there is no entity with this Id."
+				visible="{=typeof ${screen>/id} === 'undefined'}" type="Error" showIcon="true" class="sapUiSmallMargin" />
+			<MessageStrip
+				text="The app on your Apple TV should be updated. We currently recommend at least version {system>/recommendedAppleTVAppVersion}"
+				visible="{screen>/appOutdated}" type="Warning" showIcon="true" class="sapUiSmallMargin" />
+			<l:BlockLayout background="Dashboard" visible="{=typeof ${screen>/id} !== 'undefined'}">
+				<l:BlockLayoutRow>
+					<l:BlockLayoutCell title="Onboarding" visible="{=${screen>/owners}.length === 0}">
+						<MessageStrip
+							text="Onboarding confirmation or claim by user required, otherwise screen will automatically be deleted again." type="Warning"
+							showIcon="true" class="sapUiSmallMarginBottom" />
+						<form:SimpleForm editable="false" layout="ResponsiveGridLayout">
+							<Label text="Requested Owner" />
+							<Text
+								text="{=${screen>/requestedOwner} === ${system>/technicalUser} ? 'PrimeTime Appliance Onboarding' : ${screen>/requestedOwner}}" />
+
+							<Label text="Key" />
+							<Text text="{screen>/externalKey}" />
+
+							<Label text="Creation Date" />
+							<Text text="{path:'screen>/dateCreated', type: 'sap.primetime.model.DateTime'}" tooltip="{screen>/dateCreated}" />
+						</form:SimpleForm>
+						<Button text="Change Owner" press="handleChangeOnboardingOwner" class="sapUiTinyMarginEnd" />
+						<Button text="Confirm Onboarding Request" type="Emphasized" press="handleConfirmOnboarding"
+							enabled="{=${screen>/requestedOwner} !== ${system>/technicalUser}}" tooltip="Grants ownership to requesting user" />
+					</l:BlockLayoutCell>
+					<l:BlockLayoutCell visible="{=${screen>/owners}.length &gt; 0}">
+						<Toolbar style="Clear">
+							<Title titleStyle="H1" text="Properties" />
+							<ToolbarSpacer />
+							<Button icon="sap-icon://edit" type="Transparent" press="handleEditPress" tooltip="Edit"
+								visible="{= !${editState>/screenEditMode}}" />
+							<Button text="Save" type="Emphasized" press="handleSavePress" visible="{= ${editState>/screenEditMode}}" />
+							<Button text="Cancel" press="handleCancelPress" visible="{= ${editState>/screenEditMode}}" />
+						</Toolbar>
+						<l:VerticalLayout id="screenDetails" width="100%"></l:VerticalLayout>
+					</l:BlockLayoutCell>
+					<l:BlockLayoutCell>
+						<Toolbar style="Clear">
+							<Title titleStyle="H1" text="Runtime Metrics" />
+							<ToolbarSpacer />
+							<Button icon="sap-icon://quality-issue" type="Transparent" tooltip="Show Appliance Log"
+								visible="{= typeof ${screen>/metric_applianceLog}  !== 'undefined'}" press="showLog" />
+						</Toolbar>
+						<form:SimpleForm editable="false" layout="ResponsiveGridLayout">
+							<Label text="Last Active" />
+							<tnt:InfoLabel text="Never shown on a screen yet" displayOnly="true" colorScheme="9"
+								visible="{=${screen>/lastAlive} ? false : true}" />
+
+							<Label text="Last Active" />
+							<tnt:InfoLabel text="{path: 'screen>/lastAlive', type: 'sap.primetime.model.DateTime'}" displayOnly="true"
+								colorScheme="{=${screen>/aliveState} === 'OK' ? 8 : 3}" tooltip="{screen>/lastContainerAlive}"
+								visible="{=${screen>/lastAlive} ? true : false}" />
+
+							<Label text="Current Content" />
+							<Text text="{path:'screen>/metric_currentPageId', formatter:'.formatShortPageDetails'}"
+								visible="{=(${screen>/lastAlive} ? true : false) &amp;&amp; ${screen>/screenshotMode} === false}" />
+
+							<Label text="Overall Runtime" />
+							<Text
+								text="{path: 'screen>/playlist/overallDuration', formatter:'.formatSeconds'} over {=${screen>/playlist/pageReferences}.length} pages"
+								visible="{=${screen>/playlist/overallDuration} &gt; 0 &amp;&amp; ${screen>/screenshotMode} === false}" />
+						</form:SimpleForm>
+
+						<Button text="More Details" type="Transparent" press="onShowScreenDetails" visible="{=${screen>/lastAlive} ? true : false}" />
+
+						<form:SimpleForm id="extendedScreenDetails" editable="false" layout="ResponsiveGridLayout" visible="false"
+							class="sapUiNoMarginTop">
+							<Label text="Availability" />
+							<suite:ColumnMicroChart size="XS" columns="{screenEvents>/}" visible="{=${screen>/lastAlive} ? true : false}">
+								<suite:leftBottomLabel>
+									<suite:ColumnMicroChartLabel label="24h ago" />
+								</suite:leftBottomLabel>
+								<suite:rightBottomLabel>
+									<suite:ColumnMicroChartLabel label="now" />
+								</suite:rightBottomLabel>
+								<suite:columns>
+									<suite:ColumnMicroChartData value="{=parseFloat(${screenEvents>value})}"
+										color="{=parseFloat(${screenEvents>value}) &lt; 20 ? 'Critical' : 'Good'}" />
+								</suite:columns>
+							</suite:ColumnMicroChart>
+
+							<Label text="Resolution" />
+							<Text text="{screen>/metric_resX}x{screen>/metric_resY}" visible="{=${screen>/lastAlive} ? true : false}" />
+
+							<Label text="Browser" />
+							<Text text="{screen>/metric_browser}" visible="{=${screen>/lastAlive} ? true : false}" />
+
+							<Label text="OS" />
+							<Text text="{screen>/metric_os}" visible="{=${screen>/lastAlive} ? true : false}" />
+
+							<Label text="Appliance" />
+							<Text
+								text="{screen>/metric_applianceStarts} starts, last one {path: 'screen>/metric_applianceStartDate', type: 'sap.primetime.model.DateTime'}, version {screen>/metric_applianceVersion}"
+								visible="{=${screen>/metric_applianceStarts} &gt; 0}" />
+
+							<Label text="Logged In User" />
+							<Text
+								text="{=${screen>/metric_user} === ${system>/technicalUser} ? 'PrimeTime Appliance Technical User' : ${screen>/metric_user}}"
+								visible="{=${screen>/lastAlive} ? true : false}" />
+						</form:SimpleForm>
+					</l:BlockLayoutCell>
+				</l:BlockLayoutRow>
+				<l:BlockLayoutRow visible="{= typeof ${screen>/externalKey} !== 'undefined'}">
+					<l:BlockLayoutCell>
+						<Toolbar style="Clear">
+							<Title titleStyle="H1" text="Live View" />
+						</Toolbar>
+						<l:VerticalLayout>
+							<l:HorizontalLayout id="uploadDebugForm" visible="false">
+								<MessageStrip text="Debugging functionality only: Upload an image for testing purposes" type="Warning" showIcon="true"
+									class="sapUiSmallMarginEnd" />
+								<u:FileUploader id="testUploader" name="testUpload" uploadComplete="handleTestUploadComplete" />
+								<Button text="Upload" press=".onTestUploadPressed" />
+							</l:HorizontalLayout>
+							<Image id="screenshot" src="/s/api/fileservice/screenkey/{screen>/externalKey}?0" height="400px" class="screenPage autoScaling"
+								error="onScreenshotError">
+							</Image>
+						</l:VerticalLayout>
+					</l:BlockLayoutCell>
+				</l:BlockLayoutRow>
+			</l:BlockLayout>
+		</content>
+	</Page>
+</mvc:View>

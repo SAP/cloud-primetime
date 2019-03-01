@@ -1,0 +1,7 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<SelectDialog noDataText="No playlists found" title="Select Playlist(s)" search="onCatalogSearch"
+		confirm="onPlaylistCatalogClose" cancel="onPlaylistCatalogClose" items="{playlistCatalog>/}">
+		<StandardListItem title="{playlistCatalog>name}" description="{= ${playlistCatalog>pageReferences}.length} pages"
+			icon="sap-icon://media-play" iconDensityAware="false" iconInset="false" type="Active" />
+	</SelectDialog>
+</core:FragmentDefinition>

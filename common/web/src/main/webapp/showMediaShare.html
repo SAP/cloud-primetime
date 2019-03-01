@@ -1,0 +1,64 @@
+<html>
+<head>
+<title>PrimeTime - Media Share</title>
+<script type="text/javascript"
+	src="https://cdnapisec.kaltura.com/p/1921661/sp/192166100/embedIframeJs/uiconf_id/29470951/partner_id/1921661">
+	
+</script>
+
+<body style="margin: 0px">
+	<script>
+		function getUrlParameter(name) {
+			name = name.replace(/[\[\]]/g, '\\$&');
+			var url = window.location.href;
+			var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'), results = regex
+					.exec(url);
+			if (!results)
+				return null;
+			if (!results[2])
+				return '';
+
+			return decodeURIComponent(results[2].replace(/\+/g, ' '));
+		}
+
+		var id = getUrlParameter("id");
+		var privateVideo = getUrlParameter("privateVideo") == "true";
+
+		if (privateVideo) {
+			document
+					.write("<iframe id=\"kmsembed-"
+							+ id
+							+ "\" width=\"100%\" height=\"100%\" src=\"https://video.sap.com/embed/secure/iframe/entryId/"
+							+ id
+							+ "/uiConfId/30317411?iframeembed=true&flashvars[loop]=true&flashvars[controlBarContainer.plugin]=false&flashvars[largePlayBtn.plugin]=false&flashvars[loadingSpinner.plugin]=false\" class=\"kmsembed\" allowfullscreen webkitallowfullscreen mozAllowFullScreen allow=\"autoplay *; fullscreen *; encrypted-media *\" frameborder=\"0\" title=\"Kaltura Player\"></iframe>");
+		} else {
+			document
+					.write("<div id=\"kaltura_player\" style=\"width: 100%; height: 100%;\"></div>");
+			kWidget.embed({
+				targetId : "kaltura_player",
+				wid : "_1921661",
+				uiconf_id : "30317411",
+				entry_id : id,
+				flashvars : {
+					'autoPlay' : true,
+					'autoMute' : true,
+					'loop' : true,
+					'controlBarContainer.plugin' : false,
+					'largePlayBtn.plugin' : false,
+					'loadingSpinner.plugin' : false
+				}
+			});
+		}
+	</script>
+</body>
+<script>
+	window.addEventListener("message", receiveMessage, false);
+
+	function receiveMessage(event) {
+		if (!privateVideo && event.data == "become_active") {
+			var kdp = $('#kaltura_player')[0];
+			kdp.sendNotification("doSeek", 0);
+		}
+	}
+</script>
+</html>

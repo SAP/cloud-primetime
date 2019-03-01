@@ -1,0 +1,18 @@
+{
+	"name" : "Employee of the Month",
+	"description" : "An example template demonstrating the capabilities of templates in PrimeTime.",
+	"version" : "1.0",
+	"screenshot" : "screenshot.png",
+	"parameters" : [
+		{
+			"key": "image",
+			"name": "Image",
+			"type": "file"
+		},
+		{
+			"key": "name",
+			"name": "Employee Name",
+			"type": "text"
+		}
+	]
+}
