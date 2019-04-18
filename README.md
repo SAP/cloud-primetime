@@ -79,4 +79,4 @@ Contributions are very welcome.
   - Evaluate switching to TypeScript 
 
 ## License
-Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved. This file is licensed under the Apache Software License v.2, except as noted otherwise in the [LICENSE](/LICENSE) file.
+Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved. This file is licensed under the Apache Software License v2, except as noted otherwise in the [LICENSE](/LICENSE) file.

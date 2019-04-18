@@ -1,5 +1,5 @@
 <mvc:View controllerName="sap.primetime.ui.controller.FileDetails" xmlns:u="sap.ui.unified" xmlns:mvc="sap.ui.core.mvc"
-	xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core">
+	xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:form="sap.ui.layout.form">
 	<Page title="File Details" showNavButton="true" navButtonPress="navHome">
 		<headerContent>
 			<Button icon="sap-icon://add-document" tooltip="Create Page for File" type="Transparent" press="onCreatePageFromFile" />
@@ -19,8 +19,6 @@
 							<u:FileUploader uploadComplete="handleUploadComplete" uploadOnChange="true" sameFilenameAllowed="true"
 								uploadUrl="/s/api/fileservice/files/{file>/id}/content" buttonOnly="true" iconOnly="true" style="Transparent"
 								icon="sap-icon://upload-to-cloud" tooltip="Upload New Version" visible="{= !${editState>/fileEditMode}}" />
-							<Button icon="sap-icon://cause" tooltip="Show Usage Details" type="Transparent" press="onUsageDetails"
-								visible="{=${ref>/userPages}.length &gt; 0 &amp;&amp; !${editState>/fileEditMode}}" />
 							<Button icon="sap-icon://edit" type="Transparent" press="handleEditPress" tooltip="Edit"
 								visible="{= !${editState>/fileEditMode}}" />
 							<Button text="Save" type="Emphasized" press="handleSavePress" visible="{= ${editState>/fileEditMode}}" />
@@ -57,6 +55,20 @@
 								visible="false" />
 							<Button id="stopvideo" icon="sap-icon://undo" press="onStopVideo" visible="false" />
 						</VBox>
+					</l:BlockLayoutCell>
+				</l:BlockLayoutRow>
+				<l:BlockLayoutRow>
+					<l:BlockLayoutCell visible="{= !${editState>/fileEditMode} &amp;&amp; ${file>/isOwner}}">
+						<Toolbar style="Clear">
+							<Title titleStyle="H1" text="Statistics" />
+							<ToolbarSpacer />
+							<Button icon="sap-icon://cause" tooltip="Show Usage Details" type="Transparent" press="onUsageDetails"
+								visible="{=${ref>/userPages}.length &gt; 0}" />
+						</Toolbar>
+						<form:SimpleForm editable="false" layout="ResponsiveGridLayout">
+							<Label text="Used In Pages" />
+							<Text text="{=${ref>/userPages}.length} yours, {ref>/foreignPages} others" visible="{file>/isOwner}" />
+						</form:SimpleForm>
 					</l:BlockLayoutCell>
 				</l:BlockLayoutRow>
 			</l:BlockLayout>

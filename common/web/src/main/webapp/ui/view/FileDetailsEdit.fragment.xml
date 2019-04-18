@@ -5,5 +5,10 @@
 
 		<Label text="Public" />
 		<Switch state="{file>/listPublicly}" visible="{=${file>/fileType} === 'template'}" />
+
+		<Label text="Description" />
+		<TextArea value="{file>/description}" growing="true" growingMaxLines="9" visible="{= ${file>/fileType} !== 'template'}"
+			valueLiveUpdate="true" />
+
 	</form:SimpleForm>
 </core:FragmentDefinition>

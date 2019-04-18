@@ -29,11 +29,11 @@
 		<Label text="Size" />
 		<Text text="{path:'file>/size', type: 'sap.primetime.model.FileSize'}" />
 
+		<Label text="Created" />
+		<Text text="{path: 'file>/dateCreated', type: 'sap.primetime.model.DateTime'}" tooltip="{file>/dateCreated}" />
+
 		<Label text="Last Update" />
 		<Text text="{path: 'file>/dateModified', type: 'sap.primetime.model.DateTime'}" tooltip="{file>/dateModified}" />
-
-		<Label text="Used In Pages" />
-		<Text text="{=${ref>/userPages}.length} yours, {ref>/foreignPages} others" visible="{file>/isOwner}" />
 
 		<Label text="Public" />
 		<tnt:InfoLabel text="{file>/listPublicly}" displayOnly="true" colorScheme="{=${file>/listPublicly} ? 8 : 3}"

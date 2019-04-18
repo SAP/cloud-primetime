@@ -42,7 +42,7 @@
 
 			<Label text="Embed Code" />
 			<Link text="{page>/text} ({=${page>/mediasharePrivate} ? 'private' : 'public'})"
-				href="https://video.sap.com/media/t/{=${page>/pageType} === 'YOUTUBE' ? ${page>/text} : ''}" target="_blank"
+				href="https://video.sap.com/media/t/{=${page>/pageType} === 'MEDIASHARE' ? ${page>/text} : ''}" target="_blank"
 				visible="{= ${page>/pageType} === 'MEDIASHARE'}" />
 
 			<Label text="Public" />
@@ -50,7 +50,15 @@
 
 			<Label text="Auto-Reload" />
 			<tnt:InfoLabel text="{=${page>/reloadInterval} &gt; 0 ? ${page>/reloadInterval} + 's' : 'no'}" displayOnly="true"
-				colorScheme="{=${page>/reloadInterval} &gt; 0 ? 8 : 3}" visible="{= ${page>/pageType} === 'URL' || ${page>/pageType} === 'URLGRID'}" />
+				colorScheme="{=${page>/reloadInterval} &gt; 0 ? 8 : 3}"
+				visible="{= ${page>/pageType} === 'URL' || ${page>/pageType} === 'URLGRID' || ${page>/pageType} === 'TEMPLATE'}" />
+
+			<Label text="Created" />
+			<Text text="{path: 'page>/dateCreated', type: 'sap.primetime.model.DateTime'}" tooltip="{page>/dateCreated}" />
+
+			<Label text="Last Update" />
+			<Text text="{path: 'page>/dateModified', type: 'sap.primetime.model.DateTime'}" tooltip="{page>/dateModified}" />
+
 
 			<Label text="Cover Image" />
 			<Image id="pageScreenshot" src="{page>/screenshotUrl}" decorative="true" class="screenPage autoScaling" width="{system>/xDim}px"

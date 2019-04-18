@@ -212,8 +212,8 @@ sap.ui.define([
             }
             iFrame.setContent(content);
             
-            if (page.reloadInterval > 0) {
-            	this.pageReloadIntervals.push(setInterval(this.refreshFrame.bind(this), page.reloadInterval * 1000, number));
+            if (page.page.reloadInterval > 0) {
+            	this.pageReloadIntervals.push(setInterval(this.refreshFrame.bind(this), page.page.reloadInterval * 1000, number));
             }
 
             return iFrame;

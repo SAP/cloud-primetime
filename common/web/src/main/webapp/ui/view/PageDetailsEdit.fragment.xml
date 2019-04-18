@@ -38,7 +38,7 @@
 
 			<Label text="Auto-Reload" required="false" />
 			<Input value="{page>/reloadInterval}" type="Number" valueLiveUpdate="true"
-				visible="{=${page>/pageType} === 'URL' || ${page>/pageType} === 'URLGRID'}"
+				visible="{=${page>/pageType} === 'URL' || ${page>/pageType} === 'URLGRID' || ${page>/pageType} === 'TEMPLATE'}"
 				description="seconds after which the page should be reloaded" />
 
 			<Label text="File" required="true" />

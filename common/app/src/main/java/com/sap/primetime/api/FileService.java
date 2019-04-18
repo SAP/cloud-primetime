@@ -116,6 +116,7 @@ public class FileService extends BasicService implements OwnerAPISupport<File> {
 		File existingFile = getExistingFile(fileId, true);
 
 		existingFile.setName(fileData.getName());
+		existingFile.setDescription(fileData.getDescription());
 		existingFile.setListPublicly(fileData.isListPublicly());
 
 		return FileDAO.save(existingFile);
