@@ -1,14 +1,6 @@
-.sapUiBody {
-	background: #ffffff !important;
-}
-
 .fixBarIssue {
 	line-height: 1rem;
 	margin-top: -8px;
-}
-
-.sapMCrsl {
-	min-width: 0rem !important;
 }
 
 .sapMITBContent {
@@ -25,7 +17,7 @@
 	border-width: 5px;
 }
 
-.hugeObjectNumber > .sapMObjectNumberText {
+.hugeObjectNumber>.sapMObjectNumberText {
 	font-size: 2.5rem !important;
 }
 
@@ -164,6 +156,10 @@ iframe.notransition {
 	transition: transform 0s !important;
 }
 
+.sapMCrsl {
+	background-color: transparent !important;
+}
+
 /*
  * Adjustments for mobile
  */
@@ -195,62 +191,3 @@ iframe.notransition {
 .sapUiBlockCellContent>.sapMIBar>.sapMTitle {
 	font-size: 1.2rem;
 }
-
-/*
- * Start of "preview" Fiori 3 theming
- */
-.sapMPageHeader::before {
-	border-top-width: 0rem;
-}
-
-.sapMBar .sapMTitle {
-	color: white !important;
-	text-shadow: none;
-	font-family: 72;
-	font-size: 16px;
-	font-weight: bold;
-	font-style: normal;
-	font-stretch: normal;
-	line-height: normal;
-	letter-spacing: normal;
-	color: #ffffff;
-}
-
-.sapMBar .sapMTitle, .sapMBar .sapMBtnInner {
-	vertical-align: middle;
-}
-
-.sapMBar {
-	background-color: #354A5F !important;
-}
-
-.sapMBarRight, .sapMBarPH {
-	padding-right: 20px !important;
-}
-
-.sapMIBar.sapMFooter-CTX {
-	background-color: #354A5F !important;
-}
-
-.sapMITH {
-	box-shadow: inset 0 -2px 0 -1px rgba(0, 0, 0, 0.15) !important;
-	background-color: white !important;
-	border-bottom: 0.0rem solid white !important;
-}
-
-.sapMITBContent {
-	background-color: #EEF0F1 !important;
-}
-
-.sapMITBFilterIcon::before {
-	text-shadow: none !important;
-}
-
-.sapMITBText, .sapMITBCount {
-	color: #787B7F !important;
-	text-shadow: 0 0 0.125rem #ffffff !important;
-}
-
-/*
- * End of "preview" Fiori 3 theming
- */
