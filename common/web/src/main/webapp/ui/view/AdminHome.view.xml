@@ -20,6 +20,11 @@
 			<IconTabBar id="tabBar" class="sapUiResponsiveContentPadding" expandable="false" headerMode="Inline">
 				<items>
 					<IconTabFilter icon="sap-icon://home" design="Vertical" text="Overview" key="overview">
+						<MessageStrip text="{system>/infoText}" class="sapUiTinyMarginBottom" showIcon="true"
+							visible="{system>/infoConditionMet}">
+							<Link text="Go There" href="{system>/infoLink}" target="_blank"
+								visible="{=typeof ${system>/infoLink} !== 'undefined' &amp;&amp; ${system>/infoLink}.length &gt; 0}" />
+						</MessageStrip>
 						<l:BlockLayout background="Dashboard">
 							<l:BlockLayoutRow>
 								<l:BlockLayoutCell

@@ -30,6 +30,9 @@ public class Consts {
 	public static final String PROP_NEWSURL = "newsUrl";
 	public static final String PROP_ANALYTICSTOKEN = "analyticsToken";
 	public static final String PROP_RECOMMENDEDAPPLETVAPPVERSION = "recommendedAppleTVAppVersion";
+	public static final String PROP_INFOCONDITION = "infoCondition";
+	public static final String PROP_INFOTEXT = "infoText";
+	public static final String PROP_INFOLINK = "infoLink";
 
 	public static final String APPLIANCE = "appliance";
 	public static final String PROP_CONFIGREFRESHINTERVAL = "configRefreshInterval";

@@ -46,6 +46,9 @@ public class AppInitializer implements ServletContextListener {
 		app.addParameter(new ConfigSectionParam(Consts.PROP_LOGOUTURL, "Logout URL"));
 		app.addParameter(new ConfigSectionParam(Consts.PROP_FILESUPPORT, "File Support", Type.CHECKBOX));
 		app.addParameter(new ConfigSectionParam(Consts.PROP_USERIDPATTERN, "User Id Pattern"));
+		app.addParameter(new ConfigSectionParam(Consts.PROP_INFOCONDITION, "Info Condition"));
+		app.addParameter(new ConfigSectionParam(Consts.PROP_INFOTEXT, "Info Text"));
+		app.addParameter(new ConfigSectionParam(Consts.PROP_INFOLINK, "Info Link"));
 		app.addParameter(new ConfigSectionParam(Consts.PROP_ANALYTICSTOKEN, "Analytics Token"));
 		ConfigUtil.addConfigSection(app);
 

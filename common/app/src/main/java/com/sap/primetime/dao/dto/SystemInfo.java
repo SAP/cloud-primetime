@@ -23,6 +23,10 @@ public class SystemInfo {
 	private String developmentUrl;
 	private String newsUrl;
 	private String recommendedAppleTVAppVersion;
+	private String infoCondition;
+	private boolean infoConditionMet;
+	private String infoText;
+	private String infoLink;
 	private int configRefreshInterval;
 	private int reloadInterval;
 	private int screenshotInterval;
@@ -191,6 +195,38 @@ public class SystemInfo {
 
 	public void setRecommendedAppleTVAppVersion(String recommendedAppleTVAppVersion) {
 		this.recommendedAppleTVAppVersion = recommendedAppleTVAppVersion;
+	}
+
+	public String getInfoCondition() {
+		return infoCondition;
+	}
+
+	public void setInfoCondition(String infoCondition) {
+		this.infoCondition = infoCondition;
+	}
+
+	public boolean isInfoConditionMet() {
+		return infoConditionMet;
+	}
+
+	public void setInfoConditionMet(boolean infoConditionMet) {
+		this.infoConditionMet = infoConditionMet;
+	}
+
+	public String getInfoText() {
+		return infoText;
+	}
+
+	public void setInfoText(String infoText) {
+		this.infoText = infoText;
+	}
+
+	public String getInfoLink() {
+		return infoLink;
+	}
+
+	public void setInfoLink(String infoLink) {
+		this.infoLink = infoLink;
 	}
 
 	public int getConfigRefreshInterval() {

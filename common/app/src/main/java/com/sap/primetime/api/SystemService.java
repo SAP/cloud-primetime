@@ -46,6 +46,8 @@ public class SystemService extends BasicService {
 	public SystemInfo getSytemInfo() {
 		SystemInfo result = new SystemInfo();
 
+		String userId = userUtil.getLoggedInDBUser(request).getUserId();
+
 		result.setBuildTime(ConfigUtil.getProperty(Consts.APP, Consts.PROP_BUILDTIME));
 		result.setCurrentTime(new Date());
 		result.setDefaultTimezone(Calendar.getInstance().getTimeZone().getID());
@@ -54,7 +56,7 @@ public class SystemService extends BasicService {
 		result.setAnalyticsToken(ConfigUtil.getProperty(Consts.APP, Consts.PROP_ANALYTICSTOKEN));
 		result.setxDim(Consts.xDim);
 		result.setyDim(Consts.yDim);
-		result.setCurrentUser(userUtil.getLoggedInDBUser(request).getUserId());
+		result.setCurrentUser(userId);
 		result.setAdminMode(isAdmin() && userUtil.isImpersonating(request) == null);
 		result.setDbAdminMode(isDBAdmin() && userUtil.isImpersonating(request) == null);
 		result.setImpersonation(userUtil.isImpersonating(request));
@@ -66,6 +68,10 @@ public class SystemService extends BasicService {
 		result.setFileSupport(ConfigUtil.getBooleanProperty(Consts.APP, Consts.PROP_FILESUPPORT));
 		result.setRecommendedAppleTVAppVersion(
 				ConfigUtil.getProperty(Consts.APP, Consts.PROP_RECOMMENDEDAPPLETVAPPVERSION));
+		result.setInfoCondition(ConfigUtil.getProperty(Consts.APP, Consts.PROP_INFOCONDITION));
+		result.setInfoConditionMet(userId.matches(ConfigUtil.getProperty(Consts.APP, Consts.PROP_INFOCONDITION)));
+		result.setInfoText(ConfigUtil.getProperty(Consts.APP, Consts.PROP_INFOTEXT));
+		result.setInfoLink(ConfigUtil.getProperty(Consts.APP, Consts.PROP_INFOLINK));
 		result.setConfigRefreshInterval(ConfigUtil.getIntProperty(Consts.APPLIANCE, Consts.PROP_CONFIGREFRESHINTERVAL));
 		result.setReloadInterval(ConfigUtil.getIntProperty(Consts.APPLIANCE, Consts.PROP_RELOADINTERVAL));
 		result.setScreenshotInterval(ConfigUtil.getIntProperty(Consts.APPLIANCE, Consts.PROP_SCREENSHOTINTERVAL));
