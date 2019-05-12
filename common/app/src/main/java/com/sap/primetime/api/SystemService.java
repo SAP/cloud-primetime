@@ -16,6 +16,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 
 import com.sap.primetime.adapters.PersistenceAdapter;
@@ -47,6 +48,7 @@ public class SystemService extends BasicService {
 		SystemInfo result = new SystemInfo();
 
 		String userId = userUtil.getLoggedInDBUser(request).getUserId();
+		String infoCondition = ConfigUtil.getProperty(Consts.APP, Consts.PROP_INFOCONDITION);
 
 		result.setBuildTime(ConfigUtil.getProperty(Consts.APP, Consts.PROP_BUILDTIME));
 		result.setCurrentTime(new Date());
@@ -68,8 +70,8 @@ public class SystemService extends BasicService {
 		result.setFileSupport(ConfigUtil.getBooleanProperty(Consts.APP, Consts.PROP_FILESUPPORT));
 		result.setRecommendedAppleTVAppVersion(
 				ConfigUtil.getProperty(Consts.APP, Consts.PROP_RECOMMENDEDAPPLETVAPPVERSION));
-		result.setInfoCondition(ConfigUtil.getProperty(Consts.APP, Consts.PROP_INFOCONDITION));
-		result.setInfoConditionMet(userId.matches(ConfigUtil.getProperty(Consts.APP, Consts.PROP_INFOCONDITION)));
+		result.setInfoCondition(infoCondition);
+		result.setInfoConditionMet(StringUtils.isNotBlank(infoCondition) && userId.matches(infoCondition));
 		result.setInfoText(ConfigUtil.getProperty(Consts.APP, Consts.PROP_INFOTEXT));
 		result.setInfoLink(ConfigUtil.getProperty(Consts.APP, Consts.PROP_INFOLINK));
 		result.setConfigRefreshInterval(ConfigUtil.getIntProperty(Consts.APPLIANCE, Consts.PROP_CONFIGREFRESHINTERVAL));
