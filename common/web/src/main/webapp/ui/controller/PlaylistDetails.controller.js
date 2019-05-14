@@ -178,23 +178,6 @@ sap.ui.define([
 			window.open(this.getHostPart() + "/?playlist=" + this.getId());
 		},
 
-		handleMoveFront : function(oEvent) {
-			var id = oEvent.getSource().getBindingContext("playlist").getProperty("id");
-			var position = oEvent.getSource().getBindingContext("playlist").getProperty("position");
-			if (position === 0) return;
-			
-			this.movePage(id, position - 1);
-			this.pagePopover.destroy();
-		},
-
-		handleMoveBack : function(oEvent) {
-			var id = oEvent.getSource().getBindingContext("playlist").getProperty("id");
-			var position = oEvent.getSource().getBindingContext("playlist").getProperty("position");
-			
-			this.movePage(id, position + 1);
-			this.pagePopover.destroy();
-		},
-
 		handleCustomDurationChange : function(oEvent) {
 			var id = oEvent.getSource().getBindingContext("playlist").getProperty("id");
 			var customDuration = oEvent.getSource().getBindingContext("playlist").getProperty("customDuration");
@@ -222,6 +205,21 @@ sap.ui.define([
 			}, this));			
 		},
 
+		onMovePage : function(oEvent) {
+			var dragControl = oEvent.getParameter("draggedControl");
+			var id = dragControl.getBindingContext("playlist").getProperty("id");
+            var dragIndex = dragControl.getParent().indexOfItem(dragControl);
+            
+            var dropPosition = oEvent.getParameter("dropPosition");
+            var dropControl = oEvent.getParameter("droppedControl");
+            var dropIndex = dropControl.getParent().indexOfItem(dropControl) + (dropPosition == "On" ? 0 : (dropPosition == "Before" ? -1 : 0));
+            
+            if (dragIndex > dropIndex) {
+                dropIndex++;
+            }
+            this.movePage(id, dropIndex);
+		},
+
 		movePage : function(id, newIdx) {
 			var movePromise = jQuery.ajax({
 				url : "/s/api/playlistservice/playlists/" + this.getId() + "/pagereferences/" + id + "/moveto/" + newIdx,
@@ -236,20 +234,14 @@ sap.ui.define([
 		},
 
 		onSelectPage : function(oEvent) {
-			if (oEvent.getParameter("action") === "Remove") {
-				this.onDeletePage(oEvent);
-			} else {
-				this.pagePopover = sap.ui.xmlfragment("sap.primetime.ui.view.PageActions", this);
-				this.pagePopover.bindElement("playlist>" + oEvent.getSource().getBindingContext("playlist").getPath());
-				
-				this.getView().addDependent(this.pagePopover);
-				this.pagePopover.openBy(oEvent.getSource());
-			}
+			this.pagePopover = sap.ui.xmlfragment("sap.primetime.ui.view.PageActions", this);
+			this.pagePopover.bindElement("playlist>" + oEvent.getSource().getBindingContext("playlist").getPath());
+			
+			this.getView().addDependent(this.pagePopover);
+			this.pagePopover.openBy(oEvent.getSource());
 		},
 
 		onDeletePage : function(oEvent) {
-			if (oEvent.getParameter("action") !== "Remove") return;
-
 			var refType = oEvent.getSource().getBindingContext("playlist").getProperty("refType");
 			var name = refType === "PAGE" ? oEvent.getSource().getBindingContext("playlist").getProperty("page/name") : refType === "FILE" ? oEvent.getSource().getBindingContext("playlist").getProperty("file/name") : oEvent.getSource().getBindingContext("playlist").getProperty("playlist/name");
 			var id = oEvent.getSource().getBindingContext("playlist").getProperty("id");

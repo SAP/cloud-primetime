@@ -7,6 +7,10 @@
 	border-bottom-width: 0px !important;
 }
 
+.sapFCardHeaderText .sapMTextMaxLine {
+	-webkit-line-clamp: 1 !important;
+}
+
 .sapMTB-Transparent-CTX.sapMTB {
 	padding-left: 0px !important;
 }

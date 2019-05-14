@@ -2,12 +2,6 @@
 	xmlns:l="sap.ui.layout">
 	<ResponsivePopover class="sapUiPopupWithPadding" placement="Auto" showHeader="false" contentWidth="400px">
 		<content>
-			<l:HorizontalLayout class="centered" visible="{playlist>/isOwner}">
-				<Button icon="sap-icon://navigation-left-arrow" tooltip="Move forward" press="handleMoveFront"
-					visible="{=${playlist>position} &gt; 0}" />
-				<Text text="Reorder" class="sapUiSmallMargin" />
-				<Button icon="sap-icon://navigation-right-arrow" tooltip="Move back" press="handleMoveBack" visible="{playlist>/isOwner}" />
-			</l:HorizontalLayout>
 			<form:SimpleForm editable="true" layout="ResponsiveGridLayout" labelSpanXL="4" labelSpanL="4" labelSpanM="4"
 				labelSpanS="6">
 				<Label text="Custom Duration" required="false" />
@@ -31,15 +25,6 @@
 
 				<Label text="Pages" required="false" />
 				<Text text="{=${playlist>playlist/pageReferences}.length}" visible="{=${playlist>refType} === 'PLAYLIST'}" />
-
-				<Label text="Details" required="false" />
-				<Link text="Goto File" href="#/file/{playlist>file/id}" visible="{=${playlist>refType} === 'FILE'}" />
-
-				<Label text="Details" required="false" />
-				<Link text="Goto Page" href="#/page/{playlist>page/id}" visible="{=${playlist>refType} === 'PAGE'}" />
-
-				<Label text="Details" required="false" />
-				<Link text="Goto Playlist" href="#/playlist/{playlist>playlist/id}" visible="{=${playlist>refType} === 'PLAYLIST'}" />
 			</form:SimpleForm>
 		</content>
 	</ResponsivePopover>

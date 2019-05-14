@@ -1,5 +1,6 @@
 <mvc:View controllerName="sap.primetime.ui.controller.PlaylistDetails" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
-	xmlns:form="sap.ui.layout.form" xmlns:l="sap.ui.layout">
+	xmlns:form="sap.ui.layout.form" xmlns:cards="sap.f.cards" xmlns:dnd="sap.ui.core.dnd" xmlns:f="sap.f" xmlns:grid="sap.ui.layout.cssgrid"
+	xmlns:l="sap.ui.layout">
 	<Page title="Playlist Details" showNavButton="true" navButtonPress="navHome">
 		<headerContent>
 			<Button icon="sap-icon://role" type="Transparent" press="onManageOwners" tooltip="Manage Owners" visible="{playlist>/isOwner}" />
@@ -57,24 +58,44 @@
 							<Button icon="sap-icon://add-document" tooltip="Add Pages" type="Transparent" press="onAddPage" />
 							<Button icon="sap-icon://add-process" tooltip="Add Playlists" type="Transparent" press="onAddPlaylist" />
 						</Toolbar>
-						<l:HorizontalLayout allowWrapping="true" content="{playlist>/pageReferences}">
-							<GenericTile tooltip="{playlist>page/description}"
-								backgroundImage="{=${playlist>refType} === 'FILE' ? ${playlist>file/screenshotUrl} : ${playlist>page/screenshotUrl}}"
-								scope="{=${playlist>/isOwner} ? 'Actions' : 'Display'}" frameType="OneByOne" press="onSelectPage"
-								class="sapUiTinyMarginBegin sapUiTinyMarginTop">
-								<TileContent>
-									<NewsContent
-										contentText="{=${playlist>refType} === 'PAGE' ? ${playlist>page/name} : ${playlist>refType} === 'PLAYLIST' ? ${playlist>playlist/name} : ${playlist>file/name}}"
-										subheader="{=${playlist>refType} === 'PLAYLIST' ? '' : (${playlist>pageDisplayDurationOverride} &gt; 0 ? ${path: 'playlist>pageDisplayDurationOverride', formatter:'.formatSeconds'} : ${path: 'playlist>/pageDisplayDuration', formatter:'.formatSeconds'})}" />
-								</TileContent>
-							</GenericTile>
-						</l:HorizontalLayout>
-						<!-- <TileContainer editable="true" allowAdd="true" tileDelete="onDeletePage" tileMove="onMovePage" tiles="{playlist>/pageReferences}"> 
-							<CustomTile> <GenericTile tooltip="{playlist>page/description}" backgroundImage="{= typeof ${playlist>page/screenshot} !== 'undefined' ? '/s/api/fileservice/files/' 
-							+ ${playlist>page/screenshot/id} + '/content': '/ui/img/missing_screenshot.png'}" scope="Actions" frameType="OneByOne" press="onSelectPage" class="sapUiTinyMarginBegin 
-							sapUiTinyMarginTop"> <TileContent> <NewsContent contentText="{=${playlist>refType} === 'PAGE' ? ${playlist>page/name} : ${playlist>playlist/name}}" 
-							subheader="{=${playlist>refType} === 'PLAYLIST' ? '' : (${playlist>pageDisplayDurationOverride} &gt; 0 ? ${playlist>pageDisplayDurationOverride} 
-							: ${playlist>/pageDisplayDuration}) + 's'}" /> </TileContent> </GenericTile> </CustomTile> </TileContainer> -->
+						<f:GridList items="{playlist>/pageReferences}" class="sapUiSmallMarginBottom" showNoData="false">
+							<f:customLayout>
+								<grid:GridBasicLayout gridGap="0 0" gridTemplateRows="auto"
+									gridTemplateColumns="repeat(auto-fill, {=${system>/xDim} / 1.5 + 18}px)" />
+							</f:customLayout>
+							<CustomListItem class="sapUiTinyMargin">
+								<f:Card height="100%">
+									<f:header>
+										<cards:Header
+											title="{=${playlist>refType} === 'PAGE' ? ${playlist>page/name} : ${playlist>refType} === 'PLAYLIST' ? ${playlist>playlist/name} : ${playlist>file/name}}"
+											subtitle="{=${playlist>refType} === 'PLAYLIST' ? 'Playlist' : (${playlist>pageDisplayDurationOverride} &gt; 0 ? ${path: 'playlist>pageDisplayDurationOverride', formatter:'.formatSeconds'} : ${path: 'playlist>/pageDisplayDuration', formatter:'.formatSeconds'})}" />
+									</f:header>
+									<f:content>
+										<l:VerticalLayout width="100%">
+											<Image
+												src="{=${playlist>refType} === 'FILE' ? ${playlist>file/screenshotUrl} : ${playlist>refType} === 'PAGE' ? ${playlist>page/screenshotUrl} : '/ui/img/missing_screenshot.png'}"
+												width="{=${system>/xDim} / 1.5}px" height="{=${system>/yDim} / 1.5}px" />
+											<OverflowToolbar>
+												<Link text="View" href="#/file/{playlist>file/id}" visible="{=${playlist>refType} === 'FILE'}" />
+												<Link text="View" href="#/page/{playlist>page/id}" visible="{=${playlist>refType} === 'PAGE'}" />
+												<Link text="View" href="#/playlist/{playlist>playlist/id}" visible="{=${playlist>refType} === 'PLAYLIST'}" />
+												<ToolbarSpacer />
+												<OverflowToolbarButton icon="sap-icon://edit" press="onSelectPage" text="Edit" type="Transparent"
+													class="sapUiNoMarginEnd" visible="{playlist>/isOwner}" />
+												<OverflowToolbarButton icon="sap-icon://delete" press="onDeletePage" text="Delete" type="Transparent"
+													class="sapUiNoMarginBegin" visible="{playlist>/isOwner}" />
+											</OverflowToolbar>
+										</l:VerticalLayout>
+									</f:content>
+								</f:Card>
+							</CustomListItem>
+							<f:dragDropConfig>
+								<dnd:DragInfo sourceAggregation="items" enabled="{playlist>/isOwner}" />
+								<dnd:DropInfo targetAggregation="items" dropPosition="Between" dropLayout="Horizontal" drop="onMovePage"
+									enabled="{playlist>/isOwner}" />
+							</f:dragDropConfig>
+						</f:GridList>
+
 						<MessageStrip text="Playlist does not contain any content yet." showIcon="true"
 							visible="{=${playlist>/pageReferences}.length === 0}" />
 					</l:BlockLayoutCell>
