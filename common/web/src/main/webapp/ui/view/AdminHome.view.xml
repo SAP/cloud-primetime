@@ -165,13 +165,12 @@
 										<pages>
 											<l:VerticalLayout>
 												<FormattedText
-													htmlText="&lt;strong&gt;Newest Features in March&lt;/strong&gt;
+													htmlText="&lt;strong&gt;Newest Features in May&lt;/strong&gt;
 						&lt;p&gt;
 						&lt;ul&gt;
 						&lt;li&gt;Open Source Release&lt;/li&gt;
-						&lt;li&gt;Support for page repetitions&lt;/li&gt;
-						&lt;li&gt;Much improved first-start experience&lt;/li&gt;
-						&lt;li&gt;Warnings if some data is missing&lt;/li&gt;
+						&lt;li&gt;Drag &amp; Drop in Playlists&lt;/li&gt;
+						&lt;li&gt;Fiori 3 Theme&lt;/li&gt;
 						&lt;/ul&gt;" />
 												<Link text="See All &amp; Roadmap" href="{system>/newsUrl}" target="_blank"
 													visible="{=typeof ${system>/newsUrl} !== 'undefined'}" />
