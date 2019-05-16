@@ -228,7 +228,7 @@
 							<ToolbarSpacer />
 							<Button text="Claim Screen" type="Emphasized" press="onClaimScreen" />
 							<Button text="New Screen" press="onCreateScreen" />
-							<Label text="Display" />
+							<ToolbarSeparator />
 							<SegmentedButton selectedKey="{state>/screenView}">
 								<items>
 									<SegmentedButtonItem icon="sap-icon://table-chart" key="table" tooltip="Show as table" />
@@ -397,7 +397,7 @@
 						<Toolbar visible="{=${pages>/}.length &gt; 0}">
 							<ToolbarSpacer />
 							<Button text="New Page" type="Emphasized" press="onCreatePage" />
-							<Label text="Display" />
+							<ToolbarSeparator />
 							<SegmentedButton selectedKey="{state>/pageView}">
 								<items>
 									<SegmentedButtonItem icon="sap-icon://table-chart" key="table" tooltip="Show as table" />
@@ -614,7 +614,8 @@
 						visible="{system>/dbAdminMode}" iconColor="Negative">
 						<Toolbar visible="{=${data_screens>/}.length &gt; 0}">
 							<ToolbarSpacer />
-							<Label text="Display" />
+							<CheckBox text="Show only active" selected="{state>/onlyActiveScreens}" />
+							<ToolbarSeparator />
 							<SegmentedButton selectedKey="{state>/screenView}">
 								<items>
 									<SegmentedButtonItem icon="sap-icon://table-chart" key="table" tooltip="Show as table" />
@@ -641,7 +642,8 @@
 							</columns>
 
 							<items>
-								<ColumnListItem vAlign="Middle" type="Navigation" press=".onSelectDBScreen" tooltip="{data_screens>dateModified}">
+								<ColumnListItem vAlign="Middle" type="Navigation" press=".onSelectDBScreen" tooltip="{data_screens>dateModified}"
+									visible="{=${data_screens>aliveState} === 'OK' || !${state>/onlyActiveScreens}}">
 									<cells>
 										<core:Icon src="sap-icon://circle-task-2" color="green" class="sapUiTinyMarginEnd"
 											visible="{=${data_screens>aliveState} === 'OK'}" tooltip="Active" />
@@ -655,7 +657,7 @@
 						</Table>
 						<l:HorizontalLayout allowWrapping="true" content="{data_screens>/}"
 							visible="{=${state>/screenView} === 'grid' &amp;&amp; ${data_screens>/}.length &gt; 0}" class="sapUiContentPadding vboxElementList">
-							<VBox class="sapUiResponsiveMargin">
+							<VBox class="sapUiResponsiveMargin" visible="{=${data_screens>aliveState} === 'OK' || !${state>/onlyActiveScreens}}">
 								<Image src="/s/api/fileservice/screenkey/{data_screens>externalKey}" decorative="false" width="{system>/xDim}px"
 									height="{system>/yDim}px"
 									visible="{= typeof ${data_screens>externalKey} !== 'undefined' &amp;&amp; typeof ${data_screens>screenshotError} === 'undefined'}"
@@ -710,7 +712,6 @@
 						visible="{system>/dbAdminMode}" iconColor="Negative">
 						<Toolbar>
 							<ToolbarSpacer />
-							<Label text="Display" />
 							<SegmentedButton selectedKey="{state>/pageView}">
 								<items>
 									<SegmentedButtonItem icon="sap-icon://table-chart" key="table" tooltip="Show as table" />
