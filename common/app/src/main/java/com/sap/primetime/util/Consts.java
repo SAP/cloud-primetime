@@ -6,7 +6,7 @@ import org.joda.time.format.DateTimeFormatter;
 import com.google.inject.Injector;
 
 public class Consts {
-	public static final String VERSION = "1.4.2";
+	public static final String VERSION = "1.5.1";
 	public static final int xDim = 350;
 	public static final int yDim = 197;
 	public static final int BUFFER_SIZE = 16 * 1024;
