@@ -31,6 +31,9 @@ import com.sap.primetime.dao.entities.Playlist;
 import com.sap.primetime.dao.entities.Screen;
 import com.sap.primetime.dao.entities.User;
 
+import io.swagger.annotations.Api;
+
+@Api(value = "Playlists")
 @Path("playlistservice")
 public class PlaylistService extends BasicService implements OwnerAPISupport<Playlist> {
 	@GET

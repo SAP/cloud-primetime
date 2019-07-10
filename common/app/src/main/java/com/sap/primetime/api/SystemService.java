@@ -39,6 +39,9 @@ import com.sap.primetime.util.Consts;
 import com.sap.primetime.util.configuration.ConfigSection;
 import com.sap.primetime.util.configuration.ConfigUtil;
 
+import io.swagger.annotations.Api;
+
+@Api(value = "General")
 @Path("/systemservice")
 public class SystemService extends BasicService {
 	@GET

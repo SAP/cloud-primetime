@@ -13,6 +13,9 @@ import com.sap.primetime.dao.OwnerDAO;
 import com.sap.primetime.dao.UserDAO;
 import com.sap.primetime.dao.entities.User;
 
+import io.swagger.annotations.Api;
+
+@Api(value = "Users")
 @Path("userservice")
 public class UserService extends BasicService {
 	@GET

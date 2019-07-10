@@ -18,6 +18,9 @@ import com.sap.primetime.dao.entities.Playlist;
 import com.sap.primetime.dao.entities.Screen;
 import com.sap.primetime.dao.entities.User;
 
+import io.swagger.annotations.Api;
+
+@Api(value = "Database")
 @Path("/dbservice")
 public class DBService extends BasicService {
 	@GET

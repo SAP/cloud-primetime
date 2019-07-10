@@ -58,6 +58,8 @@ There are multiple configuration options available which are applied in a pre-de
 
 The easiest way to configure PrimeTime is at runtime through the "Configuration" tab, which requires the "admin" role. Any changes you make there will be persisted in the database.
 
+There is also an API available which is described through a [Swagger UI](https://primetime.eu2.hana.ondemand.com/s/api/api-docs?url=/s/api/swagger.json#/default).
+
 ## Limitations
   - Deployment to cloud platforms other than SAP Cloud Platform is not supported.
   - The document service is not yet available in the Cloud Foundry environment and file support is deactivated when deploying there.
@@ -72,7 +74,6 @@ Please use GitHub [issues](https://github.com/SAP/cloud-primetime/issues/new) fo
 Contributions are very welcome.
 
 ## To-Do (upcoming changes)
-  - Publish Apple TV companion app
   - Add MTA support 
   - Switch to WebSockets for polling scenarios
   - Provide K8s as a deployment option

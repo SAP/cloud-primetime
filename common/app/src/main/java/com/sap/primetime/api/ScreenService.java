@@ -48,6 +48,9 @@ import com.sap.primetime.dao.entities.User;
 import com.sap.primetime.util.Consts;
 import com.sap.primetime.util.configuration.ConfigUtil;
 
+import io.swagger.annotations.Api;
+
+@Api(value = "Screens")
 @Path("screenservice")
 public class ScreenService extends BasicService implements OwnerAPISupport<Screen> {
 	private static final Logger logger = LoggerFactory.getLogger(ScreenService.class);

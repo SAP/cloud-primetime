@@ -5,7 +5,10 @@ import java.util.Set;
 
 import javax.ws.rs.core.Application;
 
+import org.apache.cxf.jaxrs.swagger.Swagger2Feature;
+
 import com.sap.primetime.api.util.GsonMessageBodyHandler;
+
 
 public class ServiceRegistry extends Application {
 	private Set<Object> singletons = new HashSet<>();
@@ -20,6 +23,13 @@ public class ServiceRegistry extends Application {
 		singletons.add(new ScreenService());
 		singletons.add(new SystemService());
 		singletons.add(new UserService());
+
+		// Swagger API Documentation
+		// More Swagger settings in swagger.properties
+		Swagger2Feature feature = new Swagger2Feature();
+		feature.setPrettyPrint(true);
+		feature.setBasePath("/s/api");
+		singletons.add(feature);
 	}
 
 	@Override

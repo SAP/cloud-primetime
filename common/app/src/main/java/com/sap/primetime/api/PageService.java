@@ -35,6 +35,9 @@ import com.sap.primetime.dao.entities.Playlist;
 import com.sap.primetime.dao.entities.User;
 import com.sap.primetime.util.Consts;
 
+import io.swagger.annotations.Api;
+
+@Api(value = "Pages")
 @Path("pageservice")
 public class PageService extends BasicService implements OwnerAPISupport<Page> {
 	private Map<Long, Page> drafts = new HashMap<>();

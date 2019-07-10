@@ -91,6 +91,9 @@ import com.sap.primetime.util.HTTPRange;
 import com.sap.primetime.util.TemplateHelper;
 import com.sap.primetime.util.UploadHandler;
 
+import io.swagger.annotations.Api;
+
+@Api(value = "Files")
 @Path("fileservice")
 public class FileService extends BasicService implements OwnerAPISupport<File> {
 	private static final Logger logger = LoggerFactory.getLogger(FileService.class);
