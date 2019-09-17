@@ -61,6 +61,7 @@ The easiest way to configure PrimeTime is at runtime through the "Configuration"
 There is also an API available which is described through a [Swagger UI](https://primetime.eu2.hana.ondemand.com/s/api/api-docs?url=/s/api/swagger.json#/default).
 
 ## Limitations
+  - The [SapMachine OpenJDK](https://sap.github.io/SapMachine/) is currently not supported. There will be an error in one unit test and the server adapter will not start.
   - Deployment to cloud platforms other than SAP Cloud Platform is not supported.
   - The document service is not yet available in the Cloud Foundry environment and file support is deactivated when deploying there.
 

@@ -11,10 +11,6 @@
 	-webkit-line-clamp: 1 !important;
 }
 
-.sapMTB-Transparent-CTX.sapMTB {
-	padding-left: 0px !important;
-}
-
 .tileSelected {
 	border-color: red;
 	border-style: solid;
