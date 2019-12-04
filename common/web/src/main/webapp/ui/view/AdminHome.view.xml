@@ -1,21 +1,23 @@
 <mvc:View controllerName="sap.primetime.ui.controller.AdminHome" xmlns:mvc="sap.ui.core.mvc" xmlns:u="sap.ui.unified" xmlns="sap.m"
 	xmlns:f="sap.f" xmlns:tnt="sap.tnt" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:mc="sap.suite.ui.microchart">
-	<f:ShellBar title="PrimeTime" homeIcon="https://www.sap.com/dam/application/shared/logos/sap-logo-svg.svg" showCopilot="false"
-		showMenuButton="false" showSearch="false" showNotifications="false" showProductSwitcher="false" homeIconPressed="onLogoPress">
-		<f:profile>
-			<f:Avatar displaySize="XS" src="{user>/imageLink}" press="onShowUserDetails" tooltip="User Information" />
-		</f:profile>
-		<f:additionalContent>
-			<Button text="Create Sample Data" type="Emphasized" press="onSampleData"
-				tooltip="This is an empty installation. To get started more quickly you can have some data generated."
-				visible="{=${system>/stats_pages} === 0 &amp;&amp; ${system>/adminMode}}" />
-			<Button text="Stop Impersonation" type="Emphasized" press="onStopImpersonation"
-				tooltip="You are currently viewing the page as someone else." visible="{=typeof ${system>/impersonation} !== 'undefined'}" />
-			<OverflowToolbarButton icon="sap-icon://sys-help" type="Transparent" press="onAbout" tooltip="About"
-				class="sapUiTinyMarginEnd" />
-		</f:additionalContent>
-	</f:ShellBar>
-	<Page showHeader="false">
+	<Page>
+		<customHeader>
+			<f:ShellBar title="PrimeTime" homeIcon="https://www.sap.com/dam/application/shared/logos/sap-logo-svg.svg" showCopilot="false"
+				showMenuButton="false" showSearch="false" showNotifications="false" showProductSwitcher="false" homeIconPressed="onLogoPress">
+				<f:profile>
+					<f:Avatar displaySize="XS" src="{user>/imageLink}" press="onShowUserDetails" tooltip="User Information" />
+				</f:profile>
+				<f:additionalContent>
+					<Button text="Create Sample Data" type="Emphasized" press="onSampleData"
+						tooltip="This is an empty installation. To get started more quickly you can have some data generated."
+						visible="{=${system>/stats_pages} === 0 &amp;&amp; ${system>/adminMode}}" />
+					<Button text="Stop Impersonation" type="Emphasized" press="onStopImpersonation"
+						tooltip="You are currently viewing the page as someone else." visible="{=typeof ${system>/impersonation} !== 'undefined'}" />
+					<OverflowToolbarButton icon="sap-icon://sys-help" type="Transparent" press="onAbout" tooltip="About"
+						class="sapUiTinyMarginEnd" />
+				</f:additionalContent>
+			</f:ShellBar>
+		</customHeader>
 		<content>
 			<IconTabBar id="tabBar" class="sapUiResponsiveContentPadding" expandable="false" headerMode="Inline">
 				<items>
