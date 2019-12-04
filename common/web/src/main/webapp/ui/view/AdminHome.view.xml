@@ -106,14 +106,7 @@
 													<core:Icon src="sap-icon://sys-monitor" />
 													<Title text="Screens" class="sapUiTinyMarginBegin" />
 												</HBox>
-												<mc:StackedBarMicroChart press="press" height="100%" precision="0" class="sapUiNoMargin">
-													<mc:StackedBarMicroChartBar valueColor="Good"
-														displayValue="{path: 'data_screens>/', formatter:'.activeScreens'} active"
-														value="{path: 'data_screens>/', formatter:'.activeScreens'}" />
-													<mc:StackedBarMicroChartBar valueColor="Error"
-														displayValue="{path: 'data_screens>/', formatter:'.inactiveScreens'} inactive"
-														value="{path: 'data_screens>/', formatter:'.inactiveScreens'}" />
-												</mc:StackedBarMicroChart>
+												<Text text="{path: 'data_screens>/', formatter:'.activeScreens'} / {path: 'data_screens>/', formatter:'.inactiveScreens'}" />
 											</FlexBox>
 										</CustomListItem>
 										<CustomListItem class="sapUiSmallMarginBottom">
