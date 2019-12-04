@@ -12,12 +12,12 @@
 
 		<!-- Versions and classifiers to be shared by all modules -->
 		<cloud.jdk.version>1.8</cloud.jdk.version>
-		<cloud.sdk.version>3.88.14</cloud.sdk.version>
+		<cloud.sdk.version>3.94.11.1</cloud.sdk.version>
 		<cxf.version>3.2.0</cxf.version> <!-- upgrading to 3.3.2 will cause swagger UI to stop working -->
 		<poi.version>3.17</poi.version> <!-- upgrading to 4.0.0 will cause schemas not to be found anymore at runtime -->
 		<cmis.version>1.0.0</cmis.version>
 		<derby.version>10.14.2.0</derby.version>
-		<httpclient.version>4.5.7</httpclient.version>
+		<httpclient.version>4.5.10</httpclient.version>
 		<itutil.version>5.0.44</itutil.version>
 
 		<!-- Node.js settings -->
@@ -85,7 +85,7 @@
 				<plugin>
 					<groupId>com.github.eirslett</groupId>
 					<artifactId>frontend-maven-plugin</artifactId>
-					<version>1.7.6</version>
+					<version>1.8.0</version>
 					<executions>
 						<execution>
 							<id>install node and npm</id>
