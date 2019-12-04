@@ -121,7 +121,7 @@ public class ScreenService extends BasicService implements OwnerAPISupport<Scree
 			Page page1 = new Page("Introduction");
 			page1.addOwner(new Owner(user));
 			page1.setPageType(PageType.TEXT);
-			page1.setText("This is a demo for PrimeTime, your simple solution to create wall screen presentations.");
+			page1.setText("This is a demo for PrimeTime, your simple solution to create wall screen presentations, aka digital signage.");
 			page1.updateDynamicValues();
 			playlist.addPageReference(new PageReference(page1));
 
@@ -129,7 +129,7 @@ public class ScreenService extends BasicService implements OwnerAPISupport<Scree
 			page2.addOwner(new Owner(user));
 			page2.setPageType(PageType.TEXT);
 			page2.setText(
-					"To get started, create your pages and put them together into your own playlist.</p><p>You can show one ore multiple URLs, PDFs, images, movies, formatted texts or HTML.");
+					"To get started, create your pages and put them together into your own playlist.</p><p>You can show one or multiple URLs, PDFs, images, movies, formatted texts or HTML.");
 			page2.updateDynamicValues();
 			playlist.addPageReference(new PageReference(page2));
 
