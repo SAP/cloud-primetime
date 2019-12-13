@@ -8,12 +8,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.sap.primetime.dao.FileDAO;
+import com.sap.primetime.dao.OwnerDAO;
 import com.sap.primetime.dao.PageDAO;
+import com.sap.primetime.dao.PageReferenceDAO;
 import com.sap.primetime.dao.PlaylistDAO;
 import com.sap.primetime.dao.ScreenDAO;
 import com.sap.primetime.dao.UserDAO;
 import com.sap.primetime.dao.entities.File;
+import com.sap.primetime.dao.entities.Owner;
 import com.sap.primetime.dao.entities.Page;
+import com.sap.primetime.dao.entities.PageReference;
 import com.sap.primetime.dao.entities.Playlist;
 import com.sap.primetime.dao.entities.Screen;
 import com.sap.primetime.dao.entities.User;
@@ -76,6 +80,28 @@ public class DBService extends BasicService {
 		}
 
 		return new ScreenDAO().getAll("name");
+	}
+
+	@GET
+	@Path("/owners")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Owner> getOwners() {
+		if (!isDBAdmin()) {
+			throwUnauthorized();
+		}
+
+		return new OwnerDAO().getAll();
+	}
+
+	@GET
+	@Path("/pagereferences")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<PageReference> getPageReferences() {
+		if (!isDBAdmin()) {
+			throwUnauthorized();
+		}
+
+		return new PageReferenceDAO().getAll();
 	}
 
 }
