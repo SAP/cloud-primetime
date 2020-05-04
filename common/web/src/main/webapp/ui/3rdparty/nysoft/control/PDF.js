@@ -3,7 +3,6 @@
  * (c) Copyright 2015-2015 Manuel Richarz.
  * Licensed under the Apache License, Version 2.0 - see http://www.apache.org/licenses/LICENSE-2.0.
  */
-
 sap.ui.define([
 	"jquery.sap.global", 
 	"sap/ui/core/Control", 
@@ -64,7 +63,26 @@ sap.ui.define([
 				this._fScaling = null;
 				this._aPages = [];
 				this._mPageRefs = [];
+				
+				de.nysoft.control.PDF.prototype.onAfterRendering = function () {
+				    //If a resize listener is already registered, deregister first, so we don't have multiple listeners
+				    if (this.resizeHandlerId) {
+				        sap.ui.core.ResizeHandler.deregister(this.resizeHandlerId);
+				    }
+				
+				    //Register on the resize handler
+				    this.resizeHandlerId = sap.ui.core.ResizeHandler.register(this, this._handleResize.bind(this));
+				}
 
+				de.nysoft.control.PDF.prototype._handleResize = function () {
+				    this.setSrc(this.getSrc())
+				} 
+				
+				de.nysoft.control.PDF.prototype.exit = function() {
+				    if (this.resizeHandlerId) {
+				        sap.ui.core.ResizeHandler.deregister(this.resizeHandlerId);
+				    }
+				};
 			},
 
 			renderer: function(oRm, oControl) {
