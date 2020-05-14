@@ -64,6 +64,10 @@ sap.ui.define([
 				this._aPages = [];
 				this._mPageRefs = [];
 				
+				de.nysoft.control.PDF.prototype.onBeforeRendering = function () {
+					this.$().height("100%");
+				}
+				
 				de.nysoft.control.PDF.prototype.onAfterRendering = function () {
 				    //If a resize listener is already registered, deregister first, so we don't have multiple listeners
 				    if (this.resizeHandlerId) {
