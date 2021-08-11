@@ -1,0 +1,8 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: PrimeTime
+Upstream-Contact: Robert Wetzold <robert.wetzold@sap.com>
+Source: https://github.com/SAP/cloud-primetime
+
+Files: *
+Copyright: 2021 SAP SE or an SAP affiliate company and OwnID contributors
+License: Apache-2.0

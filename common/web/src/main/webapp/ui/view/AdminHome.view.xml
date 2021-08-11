@@ -3,7 +3,7 @@
 	<Page>
 		<customHeader>
 			<f:ShellBar title="PrimeTime" homeIcon="https://www.sap.com/dam/application/shared/logos/sap-logo-svg.svg" showCopilot="false"
-				showMenuButton="true" showSearch="false" showNotifications="false" showProductSwitcher="false" homeIconPressed="onLogoPress">
+				showMenuButton="false" showSearch="false" showNotifications="false" showProductSwitcher="false" homeIconPressed="onLogoPress">
 				<f:profile>
 					<f:Avatar displaySize="XS" src="{user>/imageLink}" press="onShowUserDetails" tooltip="User Information" />
 				</f:profile>
