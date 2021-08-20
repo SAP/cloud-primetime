@@ -1,4 +1,7 @@
 # PrimeTime
+
+[![REUSE status](https://api.reuse.software/badge/github.com/SAP/cloud-primetime)](https://api.reuse.software/info/github.com/SAP/cloud-primetime)
+
 ## Introduction
 PrimeTime is a digital signage solution. It helps you to easily manage contents for screens of all types - supporting many different formats, custom templates as well as public and secured content where a prior login is required. It also acts as a technical showcase of how SAP Cloud Platform can be utilized.
 
@@ -81,4 +84,4 @@ Contributions are very welcome.
   - Evaluate switching to TypeScript 
 
 ## License
-Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved. This file is licensed under the Apache Software License v2, except as noted otherwise in the [LICENSE](/LICENSE) file.
+Copyright (c) 2021 SAP SE or an SAP affiliate company and cloud-primetime contributors. Please see our [LICENSE](LICENSE) for copyright and license information. Detailed information including third-party components and their licensing/copyright information is available [via the REUSE tool](https://api.reuse.software/info/github.com/SAP/cloud-primetime).
