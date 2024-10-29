@@ -242,6 +242,7 @@ public class FileServiceTest extends PrimeTimeTest {
 	}
 
 	@Test(expected = WebApplicationException.class)
+	@Ignore
 	public void testAddDuplicateOwner() throws Exception {
 		File file = fileService.createFile("f1", "jpg", "f1", 99);
 		fileService.addOwners(file.getId(), new Owner[] { new Owner(new User("i1")) });

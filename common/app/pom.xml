@@ -89,7 +89,7 @@
 		<dependency>
 			<groupId>com.github.zafarkhaja</groupId>
 			<artifactId>java-semver</artifactId>
-			<version>0.9.0</version>
+			<version>0.10.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
@@ -119,12 +119,12 @@
 		<dependency>
 			<groupId>com.itextpdf</groupId>
 			<artifactId>itextpdf</artifactId>
-			<version>5.5.13.3</version>
+			<version>5.5.13.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.bytedeco</groupId>
 			<artifactId>javacv-platform</artifactId>
-			<version>1.5.7</version>
+			<version>1.5.10</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.bytedeco.javacpp-presets</groupId>
@@ -233,7 +233,7 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpcore</artifactId>
-			<version>4.4.15</version>
+			<version>4.4.16</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.derby</groupId>
@@ -244,7 +244,7 @@
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
-			<version>2.9.0</version>
+			<version>2.11.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.inject</groupId>
@@ -254,17 +254,17 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.12.0</version>
+			<version>3.17.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-text</artifactId>
-			<version>1.9</version>
+			<version>1.12.0</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.7</version>
+			<version>2.13.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.liquibase</groupId>
@@ -287,17 +287,17 @@
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
-			<version>1.4</version>
+			<version>1.5</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>31.1-jre</version>
+			<version>32.1.2-jre</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.everit-org.json-schema</groupId>
 			<artifactId>org.everit.json.schema</artifactId>
-			<version>1.14.1</version>
+			<version>1.14.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
@@ -331,7 +331,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.3.0</version>
+				<version>3.3.1</version>
 				<executions>
 					<execution>
 						<id>prepare-properties</id>

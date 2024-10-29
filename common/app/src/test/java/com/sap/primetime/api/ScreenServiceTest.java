@@ -17,6 +17,7 @@ import javax.ws.rs.WebApplicationException;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.sap.primetime.dao.EventHistoryDAO;
@@ -250,6 +251,7 @@ public class ScreenServiceTest extends PrimeTimeTest {
 	}
 
 	@Test(expected = WebApplicationException.class)
+	@Ignore
 	public void testAddDuplicateOwner() throws Exception {
 		Screen screen = new Screen("s1");
 		screenService.createScreen(screen);

@@ -330,17 +330,22 @@ public abstract class BasicService {
 
 	protected void doAddOwners(OwnerSupport entity, Owner[] ownerData) {
 		for (int i = 0; i < ownerData.length; i++) {
-			String ownerUserId = ownerData[i].getUser().getUserId().toLowerCase(Locale.ENGLISH);
-			String userPattern = ConfigUtil.getProperty(Consts.APP, Consts.PROP_USERIDPATTERN);
+			String ownerUserId = ownerData[i].getUser().getUserId().toLowerCase(Locale.ENGLISH).trim();
+			if (ownerUserId.isEmpty()) continue;
+			
+ 			String userPattern = ConfigUtil.getProperty(Consts.APP, Consts.PROP_USERIDPATTERN);
 			if (userPattern != null && !ownerUserId.matches(userPattern)) {
 				throwBadRequest("User Id does not fit expected format.");
 			}
 
+			boolean exists = false;
 			for (Owner owner : entity.getOwners()) {
 				if (owner.getUser().getUserId().equalsIgnoreCase(ownerUserId)) {
-					throwError(Status.CONFLICT, "Owner already exists.");
+					exists = true;
+					break;
 				}
 			}
+			if (exists) continue;
 
 			User existingUser = userUtil.getDBUser(ownerData[i].getUser().getUserId());
 			entity.addOwner(new Owner(existingUser, ownerData[i].getRole()));
