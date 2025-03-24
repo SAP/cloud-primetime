@@ -1,0 +1,10 @@
+version = 1
+SPDX-PackageName = "cloud-primetime"
+SPDX-PackageSupplier = "Robert Wetzold <robert.wetzold@sap.com>"
+SPDX-PackageDownloadLocation = "https://github.com/SAP/cloud-primetime"
+
+[[annotations]]
+path = "**"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2019-2021 SAP SE or an SAP affiliate company and cloud-primetime contributors"
+SPDX-License-Identifier = "Apache-2.0"
