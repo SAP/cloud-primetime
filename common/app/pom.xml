@@ -269,7 +269,7 @@
 		<dependency>
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-core</artifactId>
-			<version>3.8.2</version>
+			<version>4.8.0</version>
 		</dependency>
 		<!-- FIXME: HANA driver currently throws an error during initialization -->
 		<!-- <dependency> <groupId>com.github.lbitonti</groupId> <artifactId>liquibase-hana</artifactId> <version>3.1.1</version> </dependency> -->
